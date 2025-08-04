@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/backend/CRM project.iml" filepath="$PROJECT_DIR$/backend/CRM project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/CRM-project.iml" filepath="$PROJECT_DIR$/backend/CRM-project.iml" />
     </modules>
   </component>
 </project>

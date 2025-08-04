@@ -7,10 +7,7 @@ const TableOrders = () => {
 
     const [orders, setOrders] = useState<IOrder[]>([]);
     useEffect(() => {
-        getAllOrders().then(data => {
-            setOrders(data);
-            console.log(data);
-        });
+        getAllOrders().then(data => setOrders(data));
     }, []);
 
     return (
