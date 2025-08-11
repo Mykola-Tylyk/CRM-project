@@ -14,5 +14,5 @@ const orderSchema = new Schema({
     sum: { type: Schema.Types.Mixed, default: null },
     surname: { type: String, required: true },
     utm: { type: String, required: true },
-}, { timestamps: true, versionKey: false });
+});
 export const Order = model("orders", orderSchema);

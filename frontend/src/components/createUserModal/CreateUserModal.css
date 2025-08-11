@@ -1,0 +1,68 @@
+.modal_window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.create_user_form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 5px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+}
+
+.input_user_form {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    margin-top: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 15px;
+    width: 170px;
+}
+
+.div_button_user_form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button_user_form {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #43a047;
+    padding: 10px 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+.div_for_comment_row {
+    display: flex;
+    justify-content: space-between;
+}

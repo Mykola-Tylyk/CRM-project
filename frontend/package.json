@@ -26,10 +26,13 @@
     "eject": "react-scripts eject",
     "watch": "npm-watch"
   },
+  "devDependencies": {
+    "npm-watch": "^0.13.0"
+  },
   "watch": {
     "build": {
       "patterns": ["src"],
-      "extensions": "js,css"
+      "extensions": "js,ts,tsx,css"
     }
   },
   "eslintConfig": {

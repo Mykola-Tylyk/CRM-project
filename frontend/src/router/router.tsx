@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
-import { TableUsersPage } from "../pages/TableUsersPage";
+import { UsersPage } from "../pages/UsersPage";
 import { TableOrdersPage } from "../pages/TableOrdersPage";
 
 const routes: RouteObject[] = [
     {
         path:'',element:<MainLayout/>, children: [
-            {path:'',element:<TableUsersPage/>},
+            {path:'adminPanel',element:<UsersPage/>},
             {path:'orders',element:<TableOrdersPage/>}
         ]
     }

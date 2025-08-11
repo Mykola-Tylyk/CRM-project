@@ -1,0 +1,17 @@
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table_thead {
+    background-color: #4CAF50;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table_header {
+    padding: 10px;
+    text-align: left;
+}

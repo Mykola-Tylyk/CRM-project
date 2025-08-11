@@ -20,7 +20,7 @@ const orderSchema = new Schema<IOrder>(
         surname: { type: String, required: true },
         utm: { type: String, required: true },
     },
-    { timestamps: true, versionKey: false },
+    // { timestamps: true, versionKey: false },
 );
 
 export const Order = model<IOrder>("orders", orderSchema);

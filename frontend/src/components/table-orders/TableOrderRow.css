@@ -1,0 +1,76 @@
+/*-------------------------------------------rowStyle-----------------------------------------------*/
+.row_style {
+    cursor: pointer;
+    color: #000000;
+}
+
+.row_style.even {
+    background-color: #f6f6f6;
+}
+
+.row_style.odd {
+    background-color: #e9e9e9;
+}
+
+.row_style.hovered {
+    background-color: #43a047;
+    color: #ffffff;
+}
+
+.row_style.hovered.selected.even {
+    background-color: #f6f6f6;
+    color: #000000;
+}
+
+.row_style.hovered.selected.odd {
+    background-color: #e9e9e9;
+    color: #000000;
+}
+
+
+/*-------------------------------------------tableData-----------------------------------------------*/
+
+.table_data {
+    padding: 5px 0
+}
+
+.table_data.even {
+    background-color: #f6f6f6;
+}
+
+.table_data.odd {
+    background-color: #e9e9e9;
+}
+
+/*-------------------------------------------div-----------------------------------------------*/
+
+.div_wrapper_open_data_window {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 20px;
+}
+
+.div_message_utm_open_data_window {
+    padding: 10px;
+}
+
+.div_wrapper_comments_list_open_data_window {
+    width: 40%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

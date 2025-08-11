@@ -1,0 +1,12 @@
+.div_wrapper_users_list {
+    padding: 10px 100px;
+}
+
+.button_create {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #43a047;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
