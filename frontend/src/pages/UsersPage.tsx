@@ -1,11 +1,9 @@
 import { UsersList } from "../components/users/UsersList";
 
 const UsersPage = () => {
-
-
     return (
         <div>
-            <UsersList/>
+            <UsersList />
         </div>
     );
 };

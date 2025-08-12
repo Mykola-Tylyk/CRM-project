@@ -1,6 +1,8 @@
-import { FC, useState } from "react";
-import { saveUser } from "../../services/user.service";
 import "./CreateUserModal.css";
+
+import { FC, useState } from "react";
+
+import { saveUser } from "../../services/user.service";
 
 type Props = {
     onClose: () => void;
@@ -30,39 +32,49 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
         <div className={"modal_window"}>
             <form className={"create_user_form"}>
                 <div>
-                    <label>Email
+                    <label>
+                        Email
                         <input
                             type="email"
                             placeholder="Email"
                             value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                             className={"input_user_form"}
                         />
                     </label>
                 </div>
                 <div>
-                    <label>Name
+                    <label>
+                        Name
                         <input
                             placeholder="Name"
                             value={name}
-                            onChange={e => setName(e.target.value)}
+                            onChange={(e) => setName(e.target.value)}
                             className={"input_user_form"}
                         />
                     </label>
                 </div>
                 <div>
-                    <label>Surname
+                    <label>
+                        Surname
                         <input
                             placeholder="Surname"
                             value={surname}
-                            onChange={e => setSurname(e.target.value)}
+                            onChange={(e) => setSurname(e.target.value)}
                             className={"input_user_form"}
                         />
                     </label>
                 </div>
                 <div className={"div_button_user_form"}>
-                    <button className={"button_user_form"} onClick={onClose}>CANCEL</button>
-                    <button className={"button_user_form"} onClick={handleSubmit}>CREATE</button>
+                    <button className={"button_user_form"} onClick={onClose}>
+                        CANCEL
+                    </button>
+                    <button
+                        className={"button_user_form"}
+                        onClick={handleSubmit}
+                    >
+                        CREATE
+                    </button>
                 </div>
             </form>
         </div>
