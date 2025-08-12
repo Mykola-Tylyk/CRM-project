@@ -1,8 +1,10 @@
+import "./TableOrders.css";
+
 import { useEffect, useState } from "react";
+
 import { IOrder } from "../../interfaces/order.interface";
 import { getAllOrders } from "../../services/order.service";
 import { TableOrderRow } from "./TableOrderRow";
-import "./TableOrders.css";
 
 const TableOrders = () => {
     const [orders, setOrders] = useState<IOrder[]>([]);
@@ -13,7 +15,7 @@ const TableOrders = () => {
     }, []);
 
     const handleSelect = (id: string) => {
-        setSelectedId(prev => (prev === id ? null : id));
+        setSelectedId((prev) => (prev === id ? null : id));
     };
 
     const columns = [
@@ -29,8 +31,8 @@ const TableOrders = () => {
         "status",
         "sum",
         "already_paid",
-        "created_at"
-    ]
+        "created_at",
+    ];
 
     const colSpanLength = columns.length;
 
@@ -38,26 +40,26 @@ const TableOrders = () => {
         <div>
             <table className={"table"}>
                 <thead className={"table_thead"}>
-                <tr>
-                    {columns.map((column, index) => (
-                        <th key={index} className={"table_header"}>
-                            {column}
-                        </th>
-                    ))}
-                </tr>
+                    <tr>
+                        {columns.map((column, index) => (
+                            <th key={index} className={"table_header"}>
+                                {column}
+                            </th>
+                        ))}
+                    </tr>
                 </thead>
                 <tbody>
-                {orders.map((order, index) => (
-                    <TableOrderRow
-                        key={order._id}
-                        order={order}
-                        index={index}
-                        colSpanLength={colSpanLength}
-                        isSelected={selectedId === order._id}
-                        onClick={() => handleSelect(order._id)}
-                        selectedOrderId={selectedId}
-                    />
-                ))}
+                    {orders.map((order, index) => (
+                        <TableOrderRow
+                            key={order._id}
+                            order={order}
+                            index={index}
+                            colSpanLength={colSpanLength}
+                            isSelected={selectedId === order._id}
+                            onClick={() => handleSelect(order._id)}
+                            selectedOrderId={selectedId}
+                        />
+                    ))}
                 </tbody>
             </table>
         </div>

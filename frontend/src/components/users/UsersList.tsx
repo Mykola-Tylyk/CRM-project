@@ -1,15 +1,17 @@
+import "./UsersList.css";
+
 import { useEffect, useState } from "react";
+
 import { IUser } from "../../interfaces/user.interface";
+import { getAllUsers } from "../../services/user.service";
 import { CreateUserModal } from "../createUserModal/CreateUserModal";
 import { User } from "./User";
-import { getAllUsers } from "../../services/user.service";
-import "./UsersList.css";
 
 const UsersList = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [showModal, setShowModal] = useState(false);
     const fetchUsers = () => {
-        getAllUsers().then(data => setUsers(data));
+        getAllUsers().then((data) => setUsers(data));
     };
 
     useEffect(() => {
@@ -29,17 +31,19 @@ const UsersList = () => {
             >
                 CREATE
             </button>
-            {
-                users ?
-                    (
-                        [...users]
-                            .reverse()
-                            .map(user => <User user={user} />)
-                    ): (<div>No users</div>)
-            }
+            {users ? (
+                [...users]
+                    .reverse()
+                    .map((user) => <User key={user._id} user={user} />)
+            ) : (
+                <div>No users</div>
+            )}
 
             {showModal && (
-                <CreateUserModal onClose={() => setShowModal(false)} onSuccess={handleUserCreated} />
+                <CreateUserModal
+                    onClose={() => setShowModal(false)}
+                    onSuccess={handleUserCreated}
+                />
             )}
         </div>
     );

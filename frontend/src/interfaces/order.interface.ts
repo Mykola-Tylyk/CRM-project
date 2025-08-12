@@ -1,17 +1,17 @@
 export interface IOrder {
     _id: string;
     age: number;
-    already_paid?: any;
+    already_paid: null | number;
     course: string;
     course_format: string;
     course_type: string;
     created_at: Date;
     email: string;
-    msg?: any;
+    msg: null | string;
     name: string;
     phone: string;
-    status?: any;
-    sum?: any;
+    status: null | string;
+    sum: null | number;
     surname: string;
     utm: string;
 }
