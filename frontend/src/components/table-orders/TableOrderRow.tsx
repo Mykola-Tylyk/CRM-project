@@ -3,7 +3,7 @@ import "./TableOrderRow.css";
 import { FC, useState } from "react";
 
 import { IOrder } from "../../interfaces/order.interface";
-import { CommentsList } from "../comments/CommentsList";
+import { CommentsList } from "../comments/commentsList/CommentsList";
 
 type TableRowPageProps = {
     order: IOrder;
