@@ -1,0 +1,64 @@
+.form_div_comments_list {
+    display: flex;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: white;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input_comments_list {
+    flex: 1;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    outline: none;
+    padding: 15px;
+    background-color: #e9e9e9;
+    transition: border 0.5s ease;
+}
+
+.input_error_comments_list {
+    border: 1px solid red;
+    transition: border 0.5s ease;
+}
+
+.button_comments_list {
+    background-color: #43a047;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
+}
+
+.button_comments_list:disabled {
+    background-color: #e9e9e9;
+    color: #b1b1b1;
+    cursor: not-allowed;
+}
+
+.form_div_errors_comments_list {
+    margin-bottom: 20px;
+    color: red;
+    padding: 0 15px;
+    animation: blink 3s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+

@@ -20,7 +20,6 @@ const Comment: FC<CommentProps> = ({ comment, createdAt }) => {
                     })}
                 </div>
             </div>
-            <hr />
         </div>
     );
 };
