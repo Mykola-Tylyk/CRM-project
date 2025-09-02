@@ -6,7 +6,11 @@ import { UserValidator } from "../validators/user.validator";
 
 const router = Router();
 
-router.get("/", userController.getAll);
+router.get(
+    "/",
+    commonMiddleware.validateQuery(UserValidator.query),
+    userController.getAll,
+);
 
 router.post(
     "/",
@@ -14,6 +18,6 @@ router.post(
     userController.create,
 );
 
-router.get("/:id", userController.getById);
+router.get("/:id", commonMiddleware.validateId("id"), userController.getById);
 
 export const userRouter = router;

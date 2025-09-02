@@ -6,9 +6,17 @@ import { CommentValidator } from "../validators/comment.validator";
 
 const router = Router();
 
-router.get("/", commentController.getAll);
+router.get(
+    "/",
+    commonMiddleware.validateQuery(CommentValidator.query),
+    commentController.getAll,
+);
 
-router.get("/:order_id", commentController.getByOrderId);
+router.get(
+    "/:order_id",
+    commonMiddleware.validateId("order_id"),
+    commentController.getByOrderId,
+);
 
 router.post(
     "/",

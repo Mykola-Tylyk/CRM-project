@@ -13,4 +13,9 @@ interface ICommentCreateDTO {
     orderId: string;
 }
 
-export type { IComment, ICommentCreateDTO };
+interface ICommentQuery {
+    pageSize: number;
+    page: number;
+}
+
+export type { IComment, ICommentCreateDTO, ICommentQuery };

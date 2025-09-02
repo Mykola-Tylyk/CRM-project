@@ -15,3 +15,8 @@ export interface IOrder {
     surname: string;
     utm: string;
 }
+
+export interface IOrderQuery {
+    pageSize: number;
+    page: number;
+}

@@ -1,18 +1,29 @@
 import "./TableOrders.css";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { IOrder } from "../../interfaces/order.interface";
-import { getAllOrders } from "../../services/order.service";
+import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
+import { useAppSelector } from "../../redux/hooks/useAppSelector";
+import { orderSliceActions } from "../../redux/slices/orderSlice/orderSlice";
+import { Preloader } from "../preloader/Preloader";
 import { TableOrderRow } from "./TableOrderRow";
 
 const TableOrders = () => {
-    const [orders, setOrders] = useState<IOrder[]>([]);
+    const { orders, loadState } = useAppSelector((state) => state.orderSlice);
+    const dispatch = useAppDispatch();
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
+    const [query] = useSearchParams({ page: "1" });
+
+    const pageSize = 25;
+    const page = Number(query.get("page"));
+
     useEffect(() => {
-        getAllOrders().then((data) => setOrders(data));
-    }, []);
+        if (page) {
+            dispatch(orderSliceActions.loadOrders({ pageSize, page }));
+        }
+    }, [dispatch, page]);
 
     const handleSelect = (id: string) => {
         setSelectedId((prev) => (prev === id ? null : id));
@@ -36,6 +47,10 @@ const TableOrders = () => {
 
     const colSpanLength = columns.length;
 
+    if (!loadState) {
+        return <Preloader />;
+    }
+
     return (
         <div>
             <table className={"table"}>
@@ -49,7 +64,7 @@ const TableOrders = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map((order, index) => (
+                    {orders.data.map((order, index) => (
                         <TableOrderRow
                             key={order._id}
                             order={order}

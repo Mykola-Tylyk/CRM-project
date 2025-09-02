@@ -1,11 +1,19 @@
 import { FilterQuery } from "mongoose";
 
-import { IComment, ICommentCreateDTO } from "../interfaces/comment.interface";
+import {
+    IComment,
+    ICommentCreateDTO,
+    ICommentQuery,
+} from "../interfaces/comment.interface";
 import { Comment } from "../models/comment.model";
 
 class CommentRepository {
-    public getAll(): Promise<IComment[]> {
-        return Comment.find();
+    public getAll(query: ICommentQuery): Promise<[IComment[], number]> {
+        const skip = query.pageSize * (query.page - 1);
+        return Promise.all([
+            Comment.find().limit(query.pageSize).skip(skip),
+            Comment.find().countDocuments(),
+        ]);
     }
 
     public create(comment: ICommentCreateDTO): Promise<IComment> {

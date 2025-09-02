@@ -10,4 +10,9 @@ export class CommentValidator {
         comment: this.comment.required(),
         orderId: this.orderId.required(),
     });
+
+    public static query = joi.object({
+        pageSize: joi.number().min(1).default(25),
+        page: joi.number().min(1).default(1),
+    });
 }

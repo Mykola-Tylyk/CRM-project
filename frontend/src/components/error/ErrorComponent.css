@@ -1,0 +1,7 @@
+.div_error_message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #4CAF50;
+}

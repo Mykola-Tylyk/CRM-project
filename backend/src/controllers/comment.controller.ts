@@ -1,13 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 
 import { StatusCodesEnum } from "../enums/status-codes.enum";
-import { ICommentCreateDTO } from "../interfaces/comment.interface";
+import {
+    ICommentCreateDTO,
+    ICommentQuery,
+} from "../interfaces/comment.interface";
 import { commentService } from "../services/comment.service";
 
 class CommentController {
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await commentService.getAll();
+            const query = req.query as any as ICommentQuery;
+            const data = await commentService.getAll(query);
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);

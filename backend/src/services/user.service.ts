@@ -1,17 +1,26 @@
 import { StatusCodesEnum } from "../enums/status-codes.enum";
 import { ApiError } from "../errors/api.error";
-import { IUser, IUserDTO } from "../interfaces/user.interface";
+import { IPaginatedResponse } from "../interfaces/paginated-response.interface";
+import { IUser, IUserDTO, IUserQuery } from "../interfaces/user.interface";
 import { userRepository } from "../repositories/user.repository";
 
 class UserService {
-    public async getAll(): Promise<IUser[]> {
-        const users = await userRepository.getAll();
+    public async getAll(query: IUserQuery): Promise<IPaginatedResponse<IUser>> {
+        const [data, totalItems] = await userRepository.getAll(query);
 
-        if (!users) {
+        if (!data || data.length === 0) {
             throw new ApiError("Users not found", StatusCodesEnum.NOT_FOUND);
         }
 
-        return users;
+        const totalPages = Math.ceil(totalItems / query.pageSize);
+
+        return {
+            totalItems,
+            totalPages,
+            prevPage: query.page > 1,
+            nextPage: query.page < totalPages,
+            data,
+        };
     }
 
     public async create(user: IUserDTO): Promise<IUser> {

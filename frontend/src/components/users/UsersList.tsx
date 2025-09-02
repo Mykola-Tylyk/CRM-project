@@ -1,27 +1,47 @@
 import "./UsersList.css";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { IUser } from "../../interfaces/user.interface";
-import { getAllUsers } from "../../services/user.service";
+import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
+import { useAppSelector } from "../../redux/hooks/useAppSelector";
+import { userSliceActions } from "../../redux/slices/userSlice/userSlice";
 import { CreateUserModal } from "../createUserModal/CreateUserModal";
+import { Preloader } from "../preloader/Preloader";
 import { User } from "./User";
 
 const UsersList = () => {
-    const [users, setUsers] = useState<IUser[]>([]);
+    const { users, loadState } = useAppSelector((state) => state.userSlice);
+    const dispatch = useAppDispatch();
+
     const [showModal, setShowModal] = useState(false);
+
+    const [query] = useSearchParams({ page: "1" });
+
+    const pageSize = 2;
+    const page = Number(query.get("page"));
+    const isPageValid = Number.isInteger(page) && page > 0;
+
     const fetchUsers = () => {
-        getAllUsers().then((data) => setUsers(data));
+        if (isPageValid) {
+            dispatch(userSliceActions.loadUsers({ pageSize, page }));
+        } else {
+            dispatch(userSliceActions.setError("Invalid page parameter"));
+        }
     };
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [dispatch, page]);
 
     const handleUserCreated = () => {
         setShowModal(false);
         fetchUsers();
     };
+
+    if (!loadState) {
+        return <Preloader />;
+    }
 
     return (
         <div className={"div_wrapper_users_list"}>
@@ -31,10 +51,8 @@ const UsersList = () => {
             >
                 CREATE
             </button>
-            {users ? (
-                [...users]
-                    .reverse()
-                    .map((user) => <User key={user._id} user={user} />)
+            {users.data.length !== 0 ? (
+                users.data.map((user) => <User key={user._id} user={user} />)
             ) : (
                 <div>No users</div>
             )}

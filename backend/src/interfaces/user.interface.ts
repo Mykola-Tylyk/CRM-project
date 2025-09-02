@@ -12,4 +12,9 @@ export interface IUser extends IBase {
     isVerified: boolean;
 }
 
+export interface IUserQuery {
+    pageSize: number;
+    page: number;
+}
+
 export type IUserDTO = Pick<IUser, "name" | "surname" | "email">;
