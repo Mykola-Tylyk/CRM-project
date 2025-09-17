@@ -8,8 +8,12 @@ const Pagination = ({ totalPages }: { totalPages: number }) => {
     const maxVisible = 7;
 
     const handlePageClick = (page: number) => {
+        const currentParams = Object.fromEntries(query.entries());
         if (page !== currentPage) {
-            setQuery({ page: String(page) });
+            setQuery({
+                ...currentParams,
+                page: String(page),
+            });
         }
     };
 

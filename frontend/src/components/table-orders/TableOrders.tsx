@@ -10,23 +10,61 @@ import { Preloader } from "../preloader/Preloader";
 import { TableOrderRow } from "./TableOrderRow";
 
 const TableOrders = () => {
-    const { orders, loadState } = useAppSelector((state) => state.orderSlice);
+    const { orders, loadState, order } = useAppSelector(
+        (state) => state.orderSlice,
+    );
     const dispatch = useAppDispatch();
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
-    const [query] = useSearchParams({ page: "1" });
+    const [query, setQuery] = useSearchParams({ page: "1" });
 
     const pageSize = 25;
     const page = Number(query.get("page"));
+    const isPageValid = Number.isInteger(page) && page > 0;
 
     useEffect(() => {
-        if (page) {
-            dispatch(orderSliceActions.loadOrders({ pageSize, page }));
+        const orderParam = query.get("order") || undefined;
+
+        if (isPageValid) {
+            dispatch(
+                orderSliceActions.loadOrders({
+                    pageSize,
+                    page,
+                    order: orderParam,
+                }),
+            );
+            dispatch(orderSliceActions.setOrder(orderParam));
+        } else {
+            dispatch(orderSliceActions.setError("Invalid page parameter"));
         }
-    }, [dispatch, page]);
+    }, [dispatch, page, query]);
 
     const handleSelect = (id: string) => {
         setSelectedId((prev) => (prev === id ? null : id));
+    };
+
+    const handleSort = (column: string) => {
+        const currentParams = Object.fromEntries(query.entries());
+        const currentOrder = query.get("order");
+
+        let newOrder = column;
+
+        if (currentOrder === column) {
+            newOrder = `-${column}`;
+        } else if (currentOrder === `-${column}`) {
+            newOrder = column;
+        }
+
+        setQuery({
+            ...currentParams,
+            order: newOrder,
+        });
+    };
+
+    const renderArrow = (column: string) => {
+        if (order === column) return "▲";
+        if (order === `-${column}`) return "▼";
+        return "";
     };
 
     const columns = [
@@ -57,8 +95,17 @@ const TableOrders = () => {
                 <thead className={"table_thead"}>
                     <tr>
                         {columns.map((column, index) => (
-                            <th key={index} className={"table_header"}>
-                                {column}
+                            <th
+                                key={index}
+                                className={"table_header"}
+                                onClick={() => handleSort(column)}
+                            >
+                                <span className={"table_header_span_column"}>
+                                    {column}
+                                    <span className={"table_header_span_arrow"}>
+                                        {renderArrow(column)}
+                                    </span>
+                                </span>
                             </th>
                         ))}
                     </tr>

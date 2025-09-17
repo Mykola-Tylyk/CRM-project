@@ -18,7 +18,7 @@ const UsersList = () => {
 
     const [query] = useSearchParams({ page: "1" });
 
-    const pageSize = 2;
+    const pageSize = 25;
     const page = Number(query.get("page"));
     const isPageValid = Number.isInteger(page) && page > 0;
 

@@ -19,4 +19,10 @@ export interface IOrder {
 export interface IOrderQuery {
     pageSize: number;
     page: number;
+    searchName?: string;
+    searchSurname?: string;
+    searchEmail?: string;
+    searchPhone?: string;
+    searchAge?: number;
+    order?: string;
 }

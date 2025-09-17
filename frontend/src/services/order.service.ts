@@ -8,12 +8,16 @@ const axiosInstance = axios.create();
 export const getAllOrders = async ({
     pageSize,
     page,
+    order,
 }: {
     pageSize: number;
     page: number;
+    order?: string;
 }): Promise<IPaginatedResponse<IOrder>> => {
-    const { data } = await axiosInstance.get(
-        "/api/orders" + "?pageSize=" + pageSize + "&page=" + page,
-    );
+    let url = `/api/orders?pageSize=${pageSize}&page=${page}`;
+    if (order) {
+        url += `&order=${order}`;
+    }
+    const { data } = await axiosInstance.get(url);
     return data;
 };
