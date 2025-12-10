@@ -38,6 +38,34 @@ class OrderRepository {
             filterObject.age = Number(query.searchAge);
         }
 
+        if (query.searchCourse) {
+            filterObject.course = {
+                $regex: query.searchCourse,
+                $options: "i",
+            };
+        }
+
+        if (query.searchFormat) {
+            filterObject.course_format = {
+                $regex: query.searchFormat,
+                $options: "i",
+            };
+        }
+
+        if (query.searchType) {
+            filterObject.course_type = {
+                $regex: query.searchType,
+                $options: "i",
+            };
+        }
+
+        if (query.searchStatus) {
+            filterObject.status = {
+                $regex: query.searchStatus,
+                $options: "i",
+            };
+        }
+
         return Promise.all([
             Order.find(filterObject)
                 .limit(query.pageSize)

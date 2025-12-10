@@ -24,5 +24,9 @@ export interface IOrderQuery {
     searchEmail?: string;
     searchPhone?: string;
     searchAge?: number;
+    searchCourse?: string;
+    searchFormat?: string;
+    searchType?: string;
+    searchStatus?: string;
     order?: string;
 }

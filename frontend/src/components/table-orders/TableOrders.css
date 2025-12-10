@@ -7,8 +7,8 @@
     background-color: #4CAF50;
     color: white;
     position: sticky;
-    top: 0;
     z-index: 1;
+    top: 0;
 }
 
 .table_header {
@@ -25,4 +25,14 @@
 
 .table_header_span_arrow {
     font-size: 0.5em;
+}
+
+.div_no_orders {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #4CAF50;
+    font-size: 40px;
+    font-weight: bold;
 }

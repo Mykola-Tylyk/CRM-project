@@ -16,7 +16,7 @@ const TableOrders = () => {
     const dispatch = useAppDispatch();
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
-    const [query, setQuery] = useSearchParams({ page: "1" });
+    const [query, setQuery] = useSearchParams({ page: "1", order: "-_id" });
 
     const pageSize = 25;
     const page = Number(query.get("page"));
@@ -24,6 +24,15 @@ const TableOrders = () => {
 
     useEffect(() => {
         const orderParam = query.get("order") || undefined;
+        const searchParamName = query.get("name") || undefined;
+        const searchParamSurname = query.get("surname") || undefined;
+        const searchParamEmail = query.get("email") || undefined;
+        const searchParamPhone = query.get("phone") || undefined;
+        const searchParamAge = query.get("age") || undefined;
+        const searchParamCourse = query.get("course") || undefined;
+        const searchParamFormat = query.get("course_format") || undefined;
+        const searchParamType = query.get("course_type") || undefined;
+        const searchParamStatus = query.get("status") || undefined;
 
         if (isPageValid) {
             dispatch(
@@ -31,6 +40,15 @@ const TableOrders = () => {
                     pageSize,
                     page,
                     order: orderParam,
+                    name: searchParamName,
+                    surname: searchParamSurname,
+                    email: searchParamEmail,
+                    phone: searchParamPhone,
+                    age: Number(searchParamAge),
+                    course: searchParamCourse,
+                    course_format: searchParamFormat,
+                    course_type: searchParamType,
+                    status: searchParamStatus,
                 }),
             );
             dispatch(orderSliceActions.setOrder(orderParam));
@@ -90,40 +108,58 @@ const TableOrders = () => {
     }
 
     return (
-        <div>
-            <table className={"table"}>
-                <thead className={"table_thead"}>
-                    <tr>
-                        {columns.map((column, index) => (
-                            <th
-                                key={index}
-                                className={"table_header"}
-                                onClick={() => handleSort(column)}
-                            >
-                                <span className={"table_header_span_column"}>
-                                    {column}
-                                    <span className={"table_header_span_arrow"}>
-                                        {renderArrow(column)}
+        <div className={"grid"}>
+            {/*<div className={"toolbar_fixed"}>*/}
+            {/*    <ToolbarOrder />*/}
+            {/*</div>*/}
+            {orders.data.length !== 0 ? (
+                // <div className={"table_wrapper"}>
+                <table className={"table"}>
+                    <thead className={"table_thead"}>
+                        <tr>
+                            {columns.map((column, index) => (
+                                <th
+                                    key={index}
+                                    className={"table_header"}
+                                    onClick={() => handleSort(column)}
+                                >
+                                    <span
+                                        className={"table_header_span_column"}
+                                    >
+                                        {column}
+                                        <span
+                                            className={
+                                                "table_header_span_arrow"
+                                            }
+                                        >
+                                            {renderArrow(column)}
+                                        </span>
                                     </span>
-                                </span>
-                            </th>
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.data.map((order, index) => (
+                            <TableOrderRow
+                                key={order._id}
+                                order={order}
+                                index={index}
+                                colSpanLength={colSpanLength}
+                                isSelected={selectedId === order._id}
+                                onClick={() => handleSelect(order._id)}
+                                selectedOrderId={selectedId}
+                            />
                         ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {orders.data.map((order, index) => (
-                        <TableOrderRow
-                            key={order._id}
-                            order={order}
-                            index={index}
-                            colSpanLength={colSpanLength}
-                            isSelected={selectedId === order._id}
-                            onClick={() => handleSelect(order._id)}
-                            selectedOrderId={selectedId}
-                        />
-                    ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            ) : (
+                // </div>
+                <div className={"div_no_orders"}>No orders</div>
+            )}
+            {/*<div>*/}
+            {/*    <Pagination totalPages={totalPages} />*/}
+            {/*</div>*/}
         </div>
     );
 };

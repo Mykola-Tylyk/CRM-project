@@ -40,11 +40,46 @@ const loadOrders = createAsyncThunk(
             pageSize,
             page,
             order,
-        }: { pageSize: number; page: number; order?: string },
+            name,
+            surname,
+            email,
+            phone,
+            age,
+            course,
+            course_format,
+            course_type,
+            status,
+        }: {
+            pageSize: number;
+            page: number;
+            order?: string;
+            name?: string;
+            surname?: string;
+            email?: string;
+            phone?: string;
+            age?: number;
+            course?: string;
+            course_format?: string;
+            course_type?: string;
+            status?: string;
+        },
         thunkAPI,
     ) => {
         try {
-            const orders = await getAllOrders({ pageSize, page, order });
+            const orders = await getAllOrders({
+                pageSize,
+                page,
+                order,
+                name,
+                surname,
+                email,
+                phone,
+                age,
+                course,
+                course_format,
+                course_type,
+                status,
+            });
             return thunkAPI.fulfillWithValue(orders);
         } catch (err: unknown) {
             if (axios.isAxiosError(err) && err.response?.status === 400) {

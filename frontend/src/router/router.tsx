@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 
 import { MainLayout } from "../layouts/MainLayout";
-import { TableOrdersPage } from "../pages/TableOrdersPage";
-import { UsersPage } from "../pages/UsersPage";
+import { TableOrdersPage } from "../pages/table-orders-page/TableOrdersPage";
+import { UsersPage } from "../pages/users-page/UsersPage";
 
 const routes: RouteObject[] = [
     {

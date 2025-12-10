@@ -1,0 +1,70 @@
+/*.grid_table_orders_page {*/
+/*    display: grid;*/
+/*    grid-template-rows: auto 1fr auto;*/
+/*    height: 100vh;*/
+/*}*/
+
+/*!* фиксированный тулбар *!*/
+/*.toolbar_fixed {*/
+/*    position: sticky;*/
+/*    top: 0;*/
+/*    z-index: 1;*/
+/*    background-color: white;*/
+/*}*/
+
+/*!* таблица скроллится *!*/
+/*.table_scroll {*/
+/*    overflow-y: auto;*/
+/*    top: 0;*/
+/*}*/
+
+/*!* пагинация фиксируется внизу *!*/
+/*.pagination_fixed {*/
+/*    position: sticky;*/
+/*    bottom: 0;*/
+/*    z-index: 1;*/
+/*    background-color: white;*/
+/*}*/
+
+.grid_table_orders_page {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto; /* header, toolbar, table, pagination, footer */
+    height: 100vh;
+}
+
+/* фиксированный хедер */
+.header_fixed_table_orders_page {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: white;
+}
+
+/* фиксированный тулбар */
+.toolbar_fixed_table_orders_page {
+    position: sticky;
+    top: 60px; /* отступ после хедера, подстрой под высоту */
+    z-index: 1;
+    background-color: white;
+}
+
+/* таблица скроллится */
+.table_scroll_table_orders_page {
+    overflow-y: auto;
+}
+
+/* фиксированная пагинация */
+.pagination_fixed_table_orders_page {
+    position: sticky;
+    bottom: 40px; /* отступ перед футером */
+    z-index: 1;
+    background-color: white;
+}
+
+/* фиксированный футер */
+.footer_fixed_table_orders_page {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background-color: white;
+}

@@ -1,0 +1,43 @@
+.header_div {
+    height: 80px;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header_logo {
+    color: white;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header_button {
+    width: 46px;
+    height: 46px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #43a047;
+}
+
+.header_button:hover {
+    background-color: #388d3c;
+}
+
+.header_buttons_div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header_button img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
