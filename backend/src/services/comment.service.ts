@@ -19,21 +19,21 @@ class CommentService {
             throw new ApiError("Comments not found", StatusCodesEnum.NOT_FOUND);
         }
 
-        if (totalItems < query.pageSize) {
-            throw new ApiError(
-                `The specified page size comments ${query.pageSize} must be less than total items ${totalItems}`,
-                StatusCodesEnum.BAD_REQUEST,
-            );
-        }
+        // if (totalItems < query.pageSize) {
+        //     throw new ApiError(
+        //         `The specified page size comments ${query.pageSize} must be less than total items ${totalItems}`,
+        //         StatusCodesEnum.BAD_REQUEST,
+        //     );
+        // }
 
         const totalPages = Math.ceil(totalItems / query.pageSize);
 
-        if (totalPages < query.page) {
-            throw new ApiError(
-                `The specified comments page ${query.page} must be less than total pages ${totalPages}`,
-                StatusCodesEnum.BAD_REQUEST,
-            );
-        }
+        // if (totalPages < query.page) {
+        //     throw new ApiError(
+        //         `The specified comments page ${query.page} must be less than total pages ${totalPages}`,
+        //         StatusCodesEnum.BAD_REQUEST,
+        //     );
+        // }
 
         return {
             totalItems,

@@ -47,7 +47,7 @@ const UsersList = () => {
         <div className={"div_wrapper_users_list"}>
             <button
                 onClick={() => setShowModal(true)}
-                className={"button_create"}
+                className={"button_create_users_list"}
             >
                 CREATE
             </button>

@@ -1,82 +1,139 @@
 import "./CreateUserModal.css";
 
-import { FC, useState } from "react";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { AxiosError } from "axios";
+import { FC } from "react";
+import { useForm } from "react-hook-form";
 
 import { saveUser } from "../../services/user.service";
+import { UserCreateValidator } from "../../validators/user-create.validator";
 
 type Props = {
     onClose: () => void;
     onSuccess: () => void;
 };
 
-const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
+type IUserForm = {
+    email: string;
+    firstname: string;
+    surname: string;
+};
 
-    const handleSubmit = async () => {
+const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid, touchedFields },
+        reset,
+        setError,
+    } = useForm<IUserForm>({
+        mode: "all",
+        resolver: joiResolver(UserCreateValidator.user),
+    });
+
+    const onSubmit = async ({ firstname, ...rest }: IUserForm) => {
         try {
             await saveUser({
-                email,
-                name,
-                surname,
+                ...rest,
+                name: firstname,
             });
 
+            reset();
             onSuccess();
-        } catch (e) {
-            console.error("Error creating user:", e);
+        } catch (err) {
+            if (err instanceof AxiosError && err.response?.status === 400) {
+                setError("email", {
+                    type: "server",
+                    message:
+                        err.response.data?.message ??
+                        "User with this email already exists",
+                });
+                return;
+            }
+
+            throw err;
         }
     };
 
     return (
-        <div className={"modal_window"}>
-            <form className={"create_user_form"}>
-                <div>
+        <div className={"modal_overlay"} onClick={onClose}>
+            <div className="modal_window" onClick={(e) => e.stopPropagation()}>
+                <form
+                    className="create_user_form"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
                     <label>
                         Email
                         <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className={"input_user_form"}
+                            placeholder={"Email"}
+                            {...register("email")}
+                            className={`input_user_form ${
+                                touchedFields.email && errors.email
+                                    ? "input_error_user_form"
+                                    : ""
+                            }`}
                         />
+                        {touchedFields.email && errors.email && (
+                            <div className="error_user_form">
+                                {errors.email.message}
+                            </div>
+                        )}
                     </label>
-                </div>
-                <div>
+
                     <label>
                         Name
                         <input
-                            placeholder="Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className={"input_user_form"}
+                            placeholder={"Name"}
+                            {...register("firstname")}
+                            className={`input_user_form ${
+                                touchedFields.firstname && errors.firstname
+                                    ? "input_error_user_form"
+                                    : ""
+                            }`}
                         />
+                        {touchedFields.firstname && errors.firstname && (
+                            <div className="error_user_form">
+                                {errors.firstname.message}
+                            </div>
+                        )}
                     </label>
-                </div>
-                <div>
+
                     <label>
                         Surname
                         <input
-                            placeholder="Surname"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                            className={"input_user_form"}
+                            placeholder={"Surname"}
+                            {...register("surname")}
+                            className={`input_user_form ${
+                                touchedFields.surname && errors.surname
+                                    ? "input_error_user_form"
+                                    : ""
+                            }`}
                         />
+                        {touchedFields.surname && errors.surname && (
+                            <div className="error_user_form">
+                                {errors.surname.message}
+                            </div>
+                        )}
                     </label>
-                </div>
-                <div className={"div_button_user_form"}>
-                    <button className={"button_user_form"} onClick={onClose}>
-                        CANCEL
-                    </button>
-                    <button
-                        className={"button_user_form"}
-                        onClick={handleSubmit}
-                    >
-                        CREATE
-                    </button>
-                </div>
-            </form>
+
+                    <div className="div_button_user_form">
+                        <button
+                            type="button"
+                            className="button_user_form"
+                            onClick={onClose}
+                        >
+                            CANCEL
+                        </button>
+                        <button
+                            type="submit"
+                            className="button_user_form"
+                            disabled={!isValid}
+                        >
+                            CREATE
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

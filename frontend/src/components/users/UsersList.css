@@ -2,11 +2,15 @@
     padding: 10px 100px;
 }
 
-.button_create {
+.button_create_users_list {
     margin-bottom: 10px;
     padding: 10px 20px;
-    background-color: #43a047;
+    background-color: #4CAF50;
     border: none;
     border-radius: 5px;
     color: white;
+}
+
+.button_create_users_list:hover {
+    background-color: #388d3c;
 }

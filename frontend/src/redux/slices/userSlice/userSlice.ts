@@ -9,7 +9,11 @@ import axios from "axios";
 
 import { IPaginatedResponse } from "../../../interfaces/paginated-response.interface";
 import { IUser } from "../../../interfaces/user.interface";
-import { getAllUsers } from "../../../services/user.service";
+import {
+    blockUser,
+    getAllUsers,
+    unBlockUser,
+} from "../../../services/user.service";
 
 type UserSliceType = {
     users: IPaginatedResponse<IUser>;
@@ -45,8 +49,62 @@ const loadUsers = createAsyncThunk<
             const users = await getAllUsers({ pageSize, page });
             return thunkAPI.fulfillWithValue(users);
         } catch (err: unknown) {
-            if (axios.isAxiosError(err) && err.response?.status === 400) {
-                return thunkAPI.rejectWithValue("Page does not exist");
+            if (axios.isAxiosError(err)) {
+                const status = err.response?.status;
+
+                if (status === 400) {
+                    return thunkAPI.rejectWithValue("Invalid page parameters");
+                }
+
+                if (status === 404) {
+                    return thunkAPI.rejectWithValue("Users not found");
+                }
+            }
+            return thunkAPI.rejectWithValue("Server error");
+        }
+    },
+);
+
+const banUser = createAsyncThunk<IUser, string, { rejectValue: string }>(
+    "userSlice/banUser",
+    async (userId: string, thunkAPI) => {
+        try {
+            const user = await blockUser(userId);
+            return thunkAPI.fulfillWithValue(user);
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                const status = err.response?.status;
+
+                if (status === 400) {
+                    return thunkAPI.rejectWithValue("Invalid user state");
+                }
+
+                if (status === 404) {
+                    return thunkAPI.rejectWithValue("User not found");
+                }
+            }
+            return thunkAPI.rejectWithValue("Server error");
+        }
+    },
+);
+
+const unbanUser = createAsyncThunk<IUser, string, { rejectValue: string }>(
+    "userSlice/unbanUser",
+    async (userId: string, thunkAPI) => {
+        try {
+            const user = await unBlockUser(userId);
+            return thunkAPI.fulfillWithValue(user);
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                const status = err.response?.status;
+
+                if (status === 400) {
+                    return thunkAPI.rejectWithValue("Invalid user state");
+                }
+
+                if (status === 404) {
+                    return thunkAPI.rejectWithValue("User not found");
+                }
             }
             return thunkAPI.rejectWithValue("Server error");
         }
@@ -78,6 +136,28 @@ export const userSlice = createSlice({
                 console.log("state: ", state);
                 console.log("action: ", action);
             })
+            .addCase(banUser.fulfilled, (state, action) => {
+                const updatedUser = action.payload;
+
+                const index = state.users.data.findIndex(
+                    (u) => u._id === updatedUser._id,
+                );
+
+                if (index !== -1) {
+                    state.users.data[index] = updatedUser;
+                }
+            })
+            .addCase(unbanUser.fulfilled, (state, action) => {
+                const updatedUser = action.payload;
+
+                const index = state.users.data.findIndex(
+                    (u) => u._id === updatedUser._id,
+                );
+
+                if (index !== -1) {
+                    state.users.data[index] = updatedUser;
+                }
+            })
             .addMatcher(isFulfilled(loadUsers), (state) => {
                 state.loadState = true;
             })
@@ -87,4 +167,9 @@ export const userSlice = createSlice({
             }),
 });
 
-export const userSliceActions = { ...userSlice.actions, loadUsers };
+export const userSliceActions = {
+    ...userSlice.actions,
+    loadUsers,
+    banUser,
+    unbanUser,
+};

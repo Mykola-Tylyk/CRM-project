@@ -1,14 +1,17 @@
-.modal_window {
+.modal_overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
+}
+
+.modal_window {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .create_user_form {
@@ -25,12 +28,39 @@
 .input_user_form {
     display: flex;
     flex-direction: column;
-    border: none;
+    border: 1px solid transparent;
+    outline: none;
+    transition: border 0.5s ease;
     margin-top: 10px;
     background-color: #eee;
     border-radius: 5px;
     padding: 15px;
     width: 170px;
+}
+
+.input_error_user_form {
+    border: 1px solid red;
+    transition: border 0.5s ease;
+}
+
+.error_user_form {
+    max-height: 50px;
+    width: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    margin-top: 6px;
+    padding: 0 15px;
+    animation: blink-text 3s infinite;
+}
+
+@keyframes blink-text {
+    0%, 100% {
+        color: red;
+    }
+    50% {
+        color: transparent;
+    }
 }
 
 .div_button_user_form {
@@ -46,12 +76,6 @@
     background-color: #43a047;
     padding: 10px 20px;
 }
-
-
-
-
-
-
 
 
 

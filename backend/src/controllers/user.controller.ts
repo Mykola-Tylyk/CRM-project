@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { StatusCodesEnum } from "../enums/status-codes.enum";
-import { IUserDTO, IUserQuery } from "../interfaces/user.interface";
+import { IUserCreateDTO, IUserQuery } from "../interfaces/user.interface";
 import { userService } from "../services/user.service";
 
 class UserController {
@@ -17,7 +17,7 @@ class UserController {
 
     public async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const user = req.body as IUserDTO;
+            const user = req.body as IUserCreateDTO;
             const data = await userService.create(user);
             res.status(StatusCodesEnum.CREATED).json(data);
         } catch (e) {
@@ -29,6 +29,26 @@ class UserController {
         try {
             const userId = req.params.id;
             const data = await userService.getById(userId);
+            res.status(StatusCodesEnum.OK).json(data);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async blockUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const userId = req.params.id;
+            const data = await userService.blockUser(userId);
+            res.status(StatusCodesEnum.OK).json(data);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async unBlockUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const userId = req.params.id;
+            const data = await userService.unBlockUser(userId);
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);

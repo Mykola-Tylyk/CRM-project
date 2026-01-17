@@ -1,3 +1,4 @@
+import { RoleEnum } from "../enums/role.enum";
 import { IBase } from "./base.interface";
 
 export interface IUser extends IBase {
@@ -5,11 +6,12 @@ export interface IUser extends IBase {
     name: string;
     surname: string;
     email: string;
+    password: string;
     isActive: boolean;
     lastLogin: Date | null;
-    role: string;
+    role: RoleEnum;
     isDeleted: boolean;
-    isVerified: boolean;
+    // isVerified: boolean;
 }
 
 export interface IUserQuery {
@@ -17,4 +19,22 @@ export interface IUserQuery {
     page: number;
 }
 
-export type IUserDTO = Pick<IUser, "name" | "surname" | "email">;
+export interface IUserUpdateDTO {
+    name?: string;
+    surname?: string;
+    // email?: string;
+    // password?: string;
+    // isActive?: boolean;
+    // lastLogin?: Date | null;
+    // role?: RoleEnum;
+    // isDeleted?: boolean;
+    // isVerified?: boolean;
+}
+
+export type IUserCreateDTO = Pick<IUser, "name" | "surname" | "email">;
+
+export type IUserIdDTO = Pick<IUser, "_id">;
+
+export type IUserActivateDTO = Pick<IUser, "isActive" | "password">;
+
+export type IUserPasswordDTO = Pick<IUser, "password">;
