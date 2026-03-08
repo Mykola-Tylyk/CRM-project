@@ -1,28 +1,28 @@
-.grid_users_page {
+.grid__users_page {
     display: grid;
     grid-template-rows: auto 1fr auto auto;
     height: 100vh;
 }
 
-.header_fixed_users_page {
+.header_fixed__users_page {
     position: sticky;
     top: 0;
     z-index: 2;
     background-color: white;
 }
 
-.users_scroll_users_page {
+.users_scroll__users_page {
     overflow-y: auto;
 }
 
-.pagination_fixed_users_page {
+.pagination_fixed__users_page {
     position: sticky;
     bottom: 40px; /* отступ перед футером */
     z-index: 1;
     background-color: white;
 }
 
-.footer_fixed_users_page {
+.footer_fixed__users_page {
     position: sticky;
     bottom: 0;
     z-index: 2;

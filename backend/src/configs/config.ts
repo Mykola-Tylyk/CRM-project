@@ -5,7 +5,9 @@ import { IConfig } from "../interfaces/config.interface";
 dotenv.config({ path: "../.env" });
 
 const config: IConfig = {
-    PORT: process.env.PORT,
+    BACKEND_PORT: process.env.BACKEND_PORT,
+    FRONTEND_PORT: process.env.FRONTEND_PORT,
+
     MONGO_URI: process.env.MONGO_URI,
 
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,

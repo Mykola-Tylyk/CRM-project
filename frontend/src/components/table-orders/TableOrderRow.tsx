@@ -36,14 +36,14 @@ const TableOrderRow: FC<TableRowPageProps> = ({
     };
 
     const tableRowHoveredOrSelected = `
-     row_style 
+     row_style__table_order_row 
          ${index % 2 === 0 ? "even" : "odd"} 
          ${isHovered ? "hovered" : ""} 
          ${isSelected ? "selected" : ""}
         `;
 
     const openDataWindowInTable = `
-    table_data
+    table_data__table_order_row
         ${index % 2 === 0 ? "even" : "odd"}
     `;
 
@@ -55,25 +55,43 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={onClick}
             >
-                <td className={"table_data"}>{displayValue(order._id)}</td>
-                <td className={"table_data"}>{displayValue(order.name)}</td>
-                <td className={"table_data"}>{displayValue(order.surname)}</td>
-                <td className={"table_data"}>{displayValue(order.email)}</td>
-                <td className={"table_data"}>{displayValue(order.phone)}</td>
-                <td className={"table_data"}>{displayValue(order.age)}</td>
-                <td className={"table_data"}>{displayValue(order.course)}</td>
-                <td className={"table_data"}>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order._id)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.name)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.surname)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.email)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.phone)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.age)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.course)}
+                </td>
+                <td className={"table_data__table_order_row"}>
                     {displayValue(order.course_format)}
                 </td>
-                <td className={"table_data"}>
+                <td className={"table_data__table_order_row"}>
                     {displayValue(order.course_type)}
                 </td>
-                <td className={"table_data"}>{displayValue(order.status)}</td>
-                <td className={"table_data"}>{displayValue(order.sum)}</td>
-                <td className={"table_data"}>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.status)}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.sum)}
+                </td>
+                <td className={"table_data__table_order_row"}>
                     {displayValue(order.already_paid)}
                 </td>
-                <td className={"table_data"}>
+                <td className={"table_data__table_order_row"}>
                     {new Date(order.created_at).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
@@ -87,18 +105,22 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                         colSpan={colSpanLength}
                         className={openDataWindowInTable}
                     >
-                        <div className={"div_wrapper_open_data_window"}>
+                        <div
+                            className={
+                                "div_wrapper_open_data_window__table_order_row"
+                            }
+                        >
                             <div>
                                 <div
                                     className={
-                                        "div_message_utm_open_data_window"
+                                        "div_message_utm_open_data_window__table_order_row"
                                     }
                                 >
                                     Message: {displayValue(order.msg)}
                                 </div>
                                 <div
                                     className={
-                                        "div_message_utm_open_data_window"
+                                        "div_message_utm_open_data_window__table_order_row"
                                     }
                                 >
                                     UTM: {displayValue(order.utm)}
@@ -106,7 +128,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                             </div>
                             <div
                                 className={
-                                    "div_wrapper_comments_list_open_data_window"
+                                    "div_wrapper_comments_list_open_data_window__table_order_row"
                                 }
                             >
                                 <CommentsList

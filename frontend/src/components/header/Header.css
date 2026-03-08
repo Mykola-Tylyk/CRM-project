@@ -7,11 +7,16 @@
     padding: 0 20px;
 }
 
-.header_logo {
-    color: white;
+.header_div_logo {
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.header_link_logo {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
 }
 
 .header_button {
@@ -34,6 +39,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.header_buttons_div p {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .header_button img {

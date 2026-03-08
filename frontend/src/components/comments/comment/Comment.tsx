@@ -10,7 +10,7 @@ type CommentProps = {
 const Comment: FC<CommentProps> = ({ comment, createdAt }) => {
     return (
         <div>
-            <div className={"div_for_comment_row"}>
+            <div className={"div_for_comment_row__comment"}>
                 <div>{comment}</div>
                 <div>
                     {new Date(createdAt).toLocaleDateString("en-US", {

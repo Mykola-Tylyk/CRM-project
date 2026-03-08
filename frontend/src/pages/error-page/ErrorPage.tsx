@@ -1,9 +1,9 @@
-import { ErrorComponent } from "../../components/error/ErrorComponent";
+import { Error } from "../../components/error/Error";
 
-const ErrorPage = () => {
+const ErrorPage = ({ errorMessage }: { errorMessage: string }) => {
     return (
         <div>
-            <ErrorComponent />
+            <Error errorMessage={errorMessage} />
         </div>
     );
 };

@@ -1,4 +1,4 @@
-.div_wrapper_user {
+.div_wrapper__user {
     display: flex;
     flex-wrap: wrap;
     border: 2px solid #76b852;
@@ -6,20 +6,22 @@
     padding: 20px;
     margin-bottom: 20px;
     gap: 30px;
+    min-width: 340px;
 }
 
-.div_info_user div {
+.div_info__user div {
     word-break: break-word; /* перенос длинных слов */
     width: 240px;
 }
 
-.div_wrapper_buttons_user {
+.div_wrapper_buttons__user {
     gap: 10px;
     display: flex;
     align-items: start;
+    min-width: 340px;
 }
 
-.buttons_user {
+.buttons__user {
     padding: 6px 15px;
     border: none;
     border-radius: 5px;
@@ -28,8 +30,9 @@
     justify-content: center;
     background-color: #4CAF50;
     color: white;
+    white-space: nowrap;
 }
 
-.buttons_user:hover {
+.buttons__user:hover {
     background-color: #388d3c;
 }

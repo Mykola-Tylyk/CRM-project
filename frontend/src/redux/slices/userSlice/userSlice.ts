@@ -2,16 +2,18 @@ import {
     createAsyncThunk,
     createSlice,
     isFulfilled,
+    isPending,
     isRejected,
     PayloadAction,
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import { IPaginatedResponse } from "../../../interfaces/paginated-response.interface";
-import { IUser } from "../../../interfaces/user.interface";
+import { IUser, IUserDTO } from "../../../interfaces/user.interface";
 import {
     blockUser,
     getAllUsers,
+    saveUser,
     unBlockUser,
 } from "../../../services/user.service";
 
@@ -19,7 +21,7 @@ type UserSliceType = {
     users: IPaginatedResponse<IUser>;
     loadState: boolean;
     errorMessage: string | null;
-    hasError: boolean;
+    trigger: boolean | null;
 };
 
 const initialState: UserSliceType = {
@@ -32,7 +34,7 @@ const initialState: UserSliceType = {
     },
     loadState: false,
     errorMessage: null,
-    hasError: false,
+    trigger: null,
 };
 
 const loadUsers = createAsyncThunk<
@@ -48,19 +50,34 @@ const loadUsers = createAsyncThunk<
         try {
             const users = await getAllUsers({ pageSize, page });
             return thunkAPI.fulfillWithValue(users);
-        } catch (err: unknown) {
-            if (axios.isAxiosError(err)) {
-                const status = err.response?.status;
-
-                if (status === 400) {
-                    return thunkAPI.rejectWithValue("Invalid page parameters");
-                }
-
-                if (status === 404) {
-                    return thunkAPI.rejectWithValue("Users not found");
-                }
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                return thunkAPI.rejectWithValue(
+                    (e.response?.data as { message?: string })?.message ||
+                        "Server error",
+                );
             }
-            return thunkAPI.rejectWithValue("Server error");
+
+            return thunkAPI.rejectWithValue("Unknown server error");
+        }
+    },
+);
+
+const createUser = createAsyncThunk<IUser, IUserDTO, { rejectValue: string }>(
+    "userSlice/createUsers",
+    async (userDTO, thunkAPI) => {
+        try {
+            const createUser = await saveUser(userDTO);
+            return thunkAPI.fulfillWithValue(createUser);
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                return thunkAPI.rejectWithValue(
+                    (e.response?.data as { message?: string })?.message ||
+                        "Server error",
+                );
+            }
+
+            return thunkAPI.rejectWithValue("Unknown server error");
         }
     },
 );
@@ -71,19 +88,15 @@ const banUser = createAsyncThunk<IUser, string, { rejectValue: string }>(
         try {
             const user = await blockUser(userId);
             return thunkAPI.fulfillWithValue(user);
-        } catch (err: unknown) {
-            if (axios.isAxiosError(err)) {
-                const status = err.response?.status;
-
-                if (status === 400) {
-                    return thunkAPI.rejectWithValue("Invalid user state");
-                }
-
-                if (status === 404) {
-                    return thunkAPI.rejectWithValue("User not found");
-                }
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                return thunkAPI.rejectWithValue(
+                    (e.response?.data as { message?: string })?.message ||
+                        "Server error",
+                );
             }
-            return thunkAPI.rejectWithValue("Server error");
+
+            return thunkAPI.rejectWithValue("Unknown server error");
         }
     },
 );
@@ -94,19 +107,15 @@ const unbanUser = createAsyncThunk<IUser, string, { rejectValue: string }>(
         try {
             const user = await unBlockUser(userId);
             return thunkAPI.fulfillWithValue(user);
-        } catch (err: unknown) {
-            if (axios.isAxiosError(err)) {
-                const status = err.response?.status;
-
-                if (status === 400) {
-                    return thunkAPI.rejectWithValue("Invalid user state");
-                }
-
-                if (status === 404) {
-                    return thunkAPI.rejectWithValue("User not found");
-                }
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                return thunkAPI.rejectWithValue(
+                    (e.response?.data as { message?: string })?.message ||
+                        "Server error",
+                );
             }
-            return thunkAPI.rejectWithValue("Server error");
+
+            return thunkAPI.rejectWithValue("Unknown server error");
         }
     },
 );
@@ -116,25 +125,26 @@ export const userSlice = createSlice({
     initialState: initialState,
     reducers: {
         setError(state, action: PayloadAction<string>) {
-            state.hasError = true;
             state.errorMessage = action.payload;
         },
     },
     extraReducers: (builder) =>
         builder
+            .addCase(loadUsers.pending, (state) => {
+                state.loadState = false;
+            })
             .addCase(
                 loadUsers.fulfilled,
                 (state, action: PayloadAction<IPaginatedResponse<IUser>>) => {
                     state.users = action.payload;
-                    state.errorMessage = null;
+                    state.loadState = true;
                 },
             )
-            .addCase(loadUsers.rejected, (state, action) => {
-                state.loadState = false;
-                state.hasError = true;
-                state.errorMessage = action.error.message || "Unknown error";
-                console.log("state: ", state);
-                console.log("action: ", action);
+            .addCase(loadUsers.rejected, (state) => {
+                state.loadState = true;
+            })
+            .addCase(createUser.fulfilled, (state) => {
+                state.trigger = !state.trigger;
             })
             .addCase(banUser.fulfilled, (state, action) => {
                 const updatedUser = action.payload;
@@ -158,18 +168,30 @@ export const userSlice = createSlice({
                     state.users.data[index] = updatedUser;
                 }
             })
-            .addMatcher(isFulfilled(loadUsers), (state) => {
-                state.loadState = true;
-            })
-            .addMatcher(isRejected(loadUsers), (state) => {
-                state.loadState = true;
-                console.log("Rejected state: ", state);
-            }),
+            .addMatcher(
+                isPending(loadUsers, createUser, banUser, unbanUser),
+                (state) => {
+                    state.errorMessage = null;
+                },
+            )
+            .addMatcher(
+                isFulfilled(loadUsers, createUser, banUser, unbanUser),
+                (state) => {
+                    state.errorMessage = null;
+                },
+            )
+            .addMatcher(
+                isRejected(loadUsers, banUser, unbanUser),
+                (state, action) => {
+                    state.errorMessage = action.payload ?? "Unknown error";
+                },
+            ),
 });
 
 export const userSliceActions = {
     ...userSlice.actions,
     loadUsers,
+    createUser,
     banUser,
     unbanUser,
 };

@@ -12,25 +12,6 @@ import { tokenService } from "./token.service";
 import { userService } from "./user.service";
 
 class AuthService {
-    // public async forGenerateActivateToken(userId: string): Promise<string> {
-    //     const user = await userService.getById(userId);
-    //
-    //     if (!user) {
-    //         throw new ApiError("User not found", StatusCodesEnum.NOT_FOUND);
-    //     }
-    //
-    //     if (user.isActive === true) {
-    //         throw new ApiError("User is active", StatusCodesEnum.BAD_REQUEST);
-    //     }
-    //
-    //     const activateToken = tokenService.generateActionToken(
-    //         { _id: userId },
-    //         ActionTokenTypeEnum.ACTIVATE,
-    //     );
-    //
-    //     return `${config.FRONTEND_URL}/activate/${activateToken}`;
-    // }
-
     public async activate(
         tokenActivate: string,
         password: string,
@@ -63,32 +44,6 @@ class AuthService {
 
         return await userService.passwordRecovery(_id, hashedPassword);
     }
-
-    // public async forGenerateRecoveryToken(userId: string): Promise<string> {
-    //     const user = await userService.getById(userId);
-    //
-    //     if (!user) {
-    //         throw new ApiError("User not found", StatusCodesEnum.NOT_FOUND);
-    //     }
-    //
-    //     if (user.isDeleted) {
-    //         throw new ApiError("User is deleted", StatusCodesEnum.FORBIDDEN);
-    //     }
-    //
-    //     if (!user.isActive) {
-    //         throw new ApiError(
-    //             "User is not active",
-    //             StatusCodesEnum.BAD_REQUEST,
-    //         );
-    //     }
-    //
-    //     const recoveryToken = tokenService.generateActionToken(
-    //         { _id: userId },
-    //         ActionTokenTypeEnum.RECOVERY,
-    //     );
-    //
-    //     return `${config.FRONTEND_URL}/recovery/${recoveryToken}`;
-    // }
 
     public async generateActionToken(
         userId: string,

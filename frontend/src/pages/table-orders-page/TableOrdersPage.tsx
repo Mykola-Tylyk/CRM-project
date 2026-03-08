@@ -11,28 +11,28 @@ import { ErrorPage } from "../error-page/ErrorPage";
 const TableOrdersPage = () => {
     const {
         orders: { totalPages },
-        hasError,
+        errorMessage,
     } = useAppSelector((state) => state.orderSlice);
 
-    if (hasError) {
-        return <ErrorPage />;
+    if (errorMessage) {
+        return <ErrorPage errorMessage={errorMessage} />;
     }
 
     return (
-        <div className={"grid_table_orders_page"}>
+        <div className={"grid__table_orders_page"}>
             <header className="header_fixed_table_orders_page">
                 <Header />
             </header>
-            <div className={"toolbar_fixed_table_orders_page"}>
+            <div className={"toolbar_fixed__table_orders_page"}>
                 <ToolbarOrder />
             </div>
-            <div className={"table_scroll_table_orders_page"}>
+            <div className={"table_scroll__table_orders_page"}>
                 <TableOrders />
             </div>
-            <div className={"pagination_fixed_table_orders_page"}>
+            <div className={"pagination_fixed__table_orders_page"}>
                 <Pagination totalPages={totalPages} />
             </div>
-            <footer className="footer_fixed_table_orders_page">
+            <footer className="footer_fixed__table_orders_page">
                 <Footer />
             </footer>
         </div>

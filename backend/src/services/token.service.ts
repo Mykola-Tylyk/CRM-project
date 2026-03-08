@@ -60,8 +60,7 @@ class TokenService {
                     );
             }
             return jwt.verify(token, secret) as ITokenPayload;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (e) {
+        } catch {
             throw new ApiError("Invalid token", StatusCodesEnum.UNAUTHORIZED);
         }
     }
@@ -97,7 +96,6 @@ class TokenService {
         type: TokenTypeEnum,
     ): Promise<boolean> {
         const tokenDb = await tokenRepositories.findByParams({ [type]: token });
-
         if (!tokenDb) {
             throw new ApiError("Invalid token", StatusCodesEnum.FORBIDDEN);
         }

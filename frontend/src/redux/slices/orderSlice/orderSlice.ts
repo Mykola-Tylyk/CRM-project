@@ -2,6 +2,7 @@ import {
     createAsyncThunk,
     createSlice,
     isFulfilled,
+    isPending,
     isRejected,
     PayloadAction,
 } from "@reduxjs/toolkit";
@@ -15,7 +16,6 @@ type OrderSliceType = {
     orders: IPaginatedResponse<IOrder>;
     loadState: boolean;
     errorMessage: string | null;
-    hasError: boolean;
     order?: string;
 };
 
@@ -29,7 +29,6 @@ const initialState: OrderSliceType = {
     },
     loadState: false,
     errorMessage: null,
-    hasError: false,
     order: undefined,
 };
 
@@ -81,11 +80,15 @@ const loadOrders = createAsyncThunk(
                 status,
             });
             return thunkAPI.fulfillWithValue(orders);
-        } catch (err: unknown) {
-            if (axios.isAxiosError(err) && err.response?.status === 400) {
-                return thunkAPI.rejectWithValue("Page does not exist");
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                return thunkAPI.rejectWithValue(
+                    (e.response?.data as { message?: string })?.message ||
+                        "Server error",
+                );
             }
-            return thunkAPI.rejectWithValue("Server error");
+
+            return thunkAPI.rejectWithValue("Unknown server error");
         }
     },
 );
@@ -95,7 +98,6 @@ export const orderSlice = createSlice({
     initialState: initialState,
     reducers: {
         setError(state, action: PayloadAction<string>) {
-            state.hasError = true;
             state.errorMessage = action.payload;
         },
         setOrder(state, action: PayloadAction<string | undefined>) {
@@ -113,17 +115,17 @@ export const orderSlice = createSlice({
             )
             .addCase(loadOrders.rejected, (state, action) => {
                 state.loadState = false;
-                state.hasError = true;
-                state.errorMessage = action.error.message || "Unknown error";
-                console.log("state: ", state);
-                console.log("action: ", action);
+                state.errorMessage =
+                    (action.payload as string) || "Unknown error";
+            })
+            .addMatcher(isPending(loadOrders), (state) => {
+                state.loadState = false;
             })
             .addMatcher(isFulfilled(loadOrders), (state) => {
                 state.loadState = true;
             })
             .addMatcher(isRejected(loadOrders), (state) => {
                 state.loadState = true;
-                console.log("Rejected state: ", state);
             }),
 });
 

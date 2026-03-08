@@ -31,7 +31,7 @@ const CommentsList: FC<CommentsListProps> = ({ selectedOrderId }) => {
 
     return (
         <div>
-            <div className={"div_with_comments"}>
+            <div className={"div_with_comments__comments_list"}>
                 {comments ? (
                     [...comments.comments]
                         .slice(-3)

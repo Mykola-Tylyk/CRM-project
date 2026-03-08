@@ -1,9 +1,9 @@
-.table {
+.table__table_orders {
     border-collapse: collapse;
     width: 100%;
 }
 
-.table_thead {
+.table_thead__table_orders {
     background-color: #4CAF50;
     color: white;
     position: sticky;
@@ -11,23 +11,23 @@
     top: 0;
 }
 
-.table_header {
+.table_header__table_orders {
     padding: 10px;
     text-align: left;
     cursor: pointer;
 }
 
-.table_header_span_column {
+.table_header_span_column__table_orders {
     display: inline-flex;
     align-items: center;
     gap: 4px;
 }
 
-.table_header_span_arrow {
+.table_header_span_arrow__table_orders {
     font-size: 0.5em;
 }
 
-.div_no_orders {
+.div_no_orders__table_orders {
     display: flex;
     align-items: center;
     justify-content: center;

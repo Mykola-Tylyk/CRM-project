@@ -1,23 +1,21 @@
-.modal_overlay {
+.form_activate__activate {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: #4CAF50;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
 }
 
-.modal_window {
+.modal_window__activate {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
 }
 
-.create_user_form {
-    background-color: white;
+.create_activate_form__activate {
     padding: 30px;
-    border-radius: 5px;
     gap: 10px;
     display: flex;
     flex-direction: column;
@@ -25,7 +23,11 @@
     align-items: stretch;
 }
 
-.input_user_form {
+.create_activate_form__activate p {
+    width: 300px;
+}
+
+.input_activate_form__activate {
     display: flex;
     flex-direction: column;
     border: 1px solid transparent;
@@ -38,12 +40,12 @@
     width: 170px;
 }
 
-.input_error_user_form {
+.input_error_activate_form__activate {
     border: 1px solid red;
     transition: border 0.5s ease;
 }
 
-.error_user_form {
+.error_password_activate_form__activate {
     max-height: 50px;
     width: 170px;
     overflow-y: auto;
@@ -51,42 +53,24 @@
     word-break: break-word;
     margin-top: 6px;
     padding: 0 15px;
-    animation: blink-text 3s infinite;
+    animation: blink-text__activate 3s infinite;
 }
 
-@keyframes blink-text {
+@keyframes blink-text__activate {
     0%, 100% {
         color: red;
+        opacity: 1;
     }
     50% {
-        color: transparent;
+        color: red;
+        opacity: 0.2;
     }
 }
 
-.div_button_user_form {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.button_user_form {
+.button_activate_form__activate {
     border: none;
     border-radius: 5px;
     color: white;
     background-color: #43a047;
     padding: 10px 20px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import cookieParser from "cookie-parser";
 import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/", apiRouter);
 
@@ -45,8 +47,8 @@ const dbConnection = async () => {
 const start = async () => {
     try {
         await dbConnection();
-        app.listen(config.PORT, () => {
-            console.log(`Server listening on ${config.PORT}`);
+        app.listen(5000, () => {
+            console.log("Server listening on 5000");
         });
     } catch (e) {
         console.log(e);

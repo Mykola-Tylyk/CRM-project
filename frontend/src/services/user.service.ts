@@ -1,9 +1,7 @@
-import axios from "axios";
-
+import { urls } from "../constants/urls";
 import { IPaginatedResponse } from "../interfaces/paginated-response.interface";
 import { IUser, IUserDTO } from "../interfaces/user.interface";
-
-const axiosInstance = axios.create();
+import { apiService } from "./api.service";
 
 export const getAllUsers = async ({
     pageSize,
@@ -12,23 +10,23 @@ export const getAllUsers = async ({
     pageSize: number;
     page: number;
 }): Promise<IPaginatedResponse<IUser>> => {
-    const { data } = await axiosInstance.get(
-        "/api/users" + "?pageSize=" + pageSize + "&page=" + page,
+    const { data } = await apiService.get(
+        urls.users.base + "?pageSize=" + pageSize + "&page=" + page,
     );
     return data;
 };
 
 export const saveUser = async (user: IUserDTO): Promise<IUser> => {
-    const { data } = await axiosInstance.post("/api/users", user);
+    const { data } = await apiService.post(urls.users.base, user);
     return data;
 };
 
 export const blockUser = async (userId: string): Promise<IUser> => {
-    const { data } = await axiosInstance.patch("/api/users/block/" + userId);
+    const { data } = await apiService.patch(urls.users.block(userId));
     return data;
 };
 
 export const unBlockUser = async (userId: string): Promise<IUser> => {
-    const { data } = await axiosInstance.patch("/api/users/unblock/" + userId);
+    const { data } = await apiService.patch(urls.users.unblock(userId));
     return data;
 };

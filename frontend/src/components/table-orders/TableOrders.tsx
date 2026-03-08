@@ -109,27 +109,25 @@ const TableOrders = () => {
 
     return (
         <div className={"grid"}>
-            {/*<div className={"toolbar_fixed"}>*/}
-            {/*    <ToolbarOrder />*/}
-            {/*</div>*/}
             {orders.data.length !== 0 ? (
-                // <div className={"table_wrapper"}>
-                <table className={"table"}>
-                    <thead className={"table_thead"}>
+                <table className={"table__table_orders"}>
+                    <thead className={"table_thead__table_orders"}>
                         <tr>
                             {columns.map((column, index) => (
                                 <th
                                     key={index}
-                                    className={"table_header"}
+                                    className={"table_header__table_orders"}
                                     onClick={() => handleSort(column)}
                                 >
                                     <span
-                                        className={"table_header_span_column"}
+                                        className={
+                                            "table_header_span_column__table_orders"
+                                        }
                                     >
                                         {column}
                                         <span
                                             className={
-                                                "table_header_span_arrow"
+                                                "table_header_span_arrow__table_orders"
                                             }
                                         >
                                             {renderArrow(column)}
@@ -154,12 +152,8 @@ const TableOrders = () => {
                     </tbody>
                 </table>
             ) : (
-                // </div>
-                <div className={"div_no_orders"}>No orders</div>
+                <div className={"div_no_orders__table_orders"}>No orders</div>
             )}
-            {/*<div>*/}
-            {/*    <Pagination totalPages={totalPages} />*/}
-            {/*</div>*/}
         </div>
     );
 };

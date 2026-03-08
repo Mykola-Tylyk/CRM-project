@@ -52,13 +52,13 @@ const ToolbarOrder = () => {
     };
 
     return (
-        <div className={"div_wrapper"}>
-            <div className={"div_wrapper_search_input"}>
-                <div className={"div_wrapper_1_row"}>
+        <div className={"div_wrapper__toolbar_order"}>
+            <div className={"div_wrapper_search_input__toolbar_order"}>
+                <div className={"div_wrapper_1_row__toolbar_order"}>
                     <input
                         type="text"
                         placeholder="Name"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={filters.name}
                         onChange={(e) => {
                             const value = e.target.value;
@@ -69,7 +69,7 @@ const ToolbarOrder = () => {
                     <input
                         type="text"
                         placeholder="Surname"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={filters.surname}
                         onChange={(e) => {
                             const value = e.target.value;
@@ -80,7 +80,7 @@ const ToolbarOrder = () => {
                     <input
                         type="text"
                         placeholder="Email"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={filters.email}
                         onChange={(e) => {
                             const value = e.target.value;
@@ -91,7 +91,7 @@ const ToolbarOrder = () => {
                     <input
                         type="text"
                         placeholder="Phone"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={filters.phone}
                         onChange={(e) => {
                             const value = e.target.value;
@@ -102,7 +102,7 @@ const ToolbarOrder = () => {
                     <input
                         type="text"
                         placeholder="Age"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={filters.age}
                         onChange={(e) => {
                             const value = e.target.value;
@@ -111,7 +111,7 @@ const ToolbarOrder = () => {
                         }}
                     />
                     <select
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={query.get("course") || ""}
                         onChange={(e) => handleChange("course", e.target.value)}
                     >
@@ -124,9 +124,9 @@ const ToolbarOrder = () => {
                         <option value="pcx">PCX</option>
                     </select>
                 </div>
-                <div className={"div_wrapper_2_row"}>
+                <div className={"div_wrapper_2_row__toolbar_order"}>
                     <select
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={query.get("course_format") || ""}
                         onChange={(e) =>
                             handleChange("course_format", e.target.value)
@@ -137,7 +137,7 @@ const ToolbarOrder = () => {
                         <option value="online">online</option>
                     </select>
                     <select
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={query.get("course_type") || ""}
                         onChange={(e) =>
                             handleChange("course_type", e.target.value)
@@ -151,7 +151,7 @@ const ToolbarOrder = () => {
                         <option value="vip">vip</option>
                     </select>
                     <select
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         value={query.get("status") || ""}
                         onChange={(e) => handleChange("status", e.target.value)}
                     >
@@ -163,7 +163,7 @@ const ToolbarOrder = () => {
                         <option value="Dubbing">Dubbing</option>
                     </select>
                     <select
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         // value={query.get("course") || ""}
                         // onChange={(e) => handleChange("course", e.target.value)}
                     >
@@ -173,7 +173,7 @@ const ToolbarOrder = () => {
                     <input
                         type={typeStartDate}
                         placeholder="Start date"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         onFocus={() => setTypeStartDate("date")}
                         onBlur={(e) => {
                             if (!e.target.value) setTypeStartDate("text");
@@ -182,7 +182,7 @@ const ToolbarOrder = () => {
                     <input
                         type={typeEndDate}
                         placeholder="End date"
-                        className={"input_search"}
+                        className={"input_search__toolbar_order"}
                         onFocus={() => setTypeEndDate("date")}
                         onBlur={(e) => {
                             if (!e.target.value) setTypeEndDate("text");
@@ -190,16 +190,22 @@ const ToolbarOrder = () => {
                     />
                 </div>
             </div>
-            <div className={"div_wrapper_buttons"}>
-                <label className="custom-checkbox">
+            <div className={"div_wrapper_buttons__toolbar_order"}>
+                <label className="custom-checkbox__toolbar_order">
                     <input type="checkbox" />
-                    <span className="checkmark"></span>
+                    <span className="checkmark__toolbar_order"></span>
                     My
                 </label>
-                <button className={"buttons"} onClick={() => handleReset()}>
+                <button
+                    className={"buttons__toolbar_order"}
+                    onClick={() => handleReset()}
+                >
                     <img src="/img/Reset.png" alt="Reset" />
                 </button>
-                <button className={"buttons"} onClick={() => handleReset()}>
+                <button
+                    className={"buttons__toolbar_order"}
+                    onClick={() => handleReset()}
+                >
                     <img src="/img/Excel.png" alt="Excel" />
                 </button>
             </div>

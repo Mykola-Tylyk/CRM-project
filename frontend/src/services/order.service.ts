@@ -1,9 +1,7 @@
-import axios from "axios";
-
+import { urls } from "../constants/urls";
 import { IOrder } from "../interfaces/order.interface";
 import { IPaginatedResponse } from "../interfaces/paginated-response.interface";
-
-const axiosInstance = axios.create();
+import { apiService } from "./api.service";
 
 export const getAllOrders = async ({
     pageSize,
@@ -32,7 +30,7 @@ export const getAllOrders = async ({
     course_type?: string;
     status?: string;
 }): Promise<IPaginatedResponse<IOrder>> => {
-    let url = `/api/orders?pageSize=${pageSize}&page=${page}`;
+    let url = urls.orders.base + `?pageSize=${pageSize}&page=${page}`;
 
     if (order) {
         url += `&order=${order}`;
@@ -73,6 +71,6 @@ export const getAllOrders = async ({
     if (status) {
         url += `&searchStatus=${status}`;
     }
-    const { data } = await axiosInstance.get(url);
+    const { data } = await apiService.get(url);
     return data;
 };

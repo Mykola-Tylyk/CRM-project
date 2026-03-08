@@ -1,11 +1,11 @@
 import "./CreateUserModal.css";
 
 import { joiResolver } from "@hookform/resolvers/joi";
-import { AxiosError } from "axios";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 
-import { saveUser } from "../../services/user.service";
+import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
+import { userSliceActions } from "../../redux/slices/userSlice/userSlice";
 import { UserCreateValidator } from "../../validators/user-create.validator";
 
 type Props = {
@@ -20,6 +20,7 @@ type IUserForm = {
 };
 
 const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
+    const dispatch = useAppDispatch();
     const {
         register,
         handleSubmit,
@@ -33,33 +34,31 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
 
     const onSubmit = async ({ firstname, ...rest }: IUserForm) => {
         try {
-            await saveUser({
-                ...rest,
-                name: firstname,
-            });
+            await dispatch(
+                userSliceActions.createUser({
+                    ...rest,
+                    name: firstname,
+                }),
+            ).unwrap();
 
             reset();
             onSuccess();
         } catch (err) {
-            if (err instanceof AxiosError && err.response?.status === 400) {
-                setError("email", {
-                    type: "server",
-                    message:
-                        err.response.data?.message ??
-                        "User with this email already exists",
-                });
-                return;
-            }
-
-            throw err;
+            setError("email", {
+                type: "server",
+                message: String(err),
+            });
         }
     };
 
     return (
-        <div className={"modal_overlay"} onClick={onClose}>
-            <div className="modal_window" onClick={(e) => e.stopPropagation()}>
+        <div className={"modal_overlay__user_modal"} onClick={onClose}>
+            <div
+                className="modal_window__user_modal"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <form
-                    className="create_user_form"
+                    className="create_user_form__user_modal"
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <label>
@@ -67,14 +66,14 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
                         <input
                             placeholder={"Email"}
                             {...register("email")}
-                            className={`input_user_form ${
+                            className={`input_user_form__user_modal ${
                                 touchedFields.email && errors.email
-                                    ? "input_error_user_form"
+                                    ? "input_error_user_form__user_modal"
                                     : ""
                             }`}
                         />
                         {touchedFields.email && errors.email && (
-                            <div className="error_user_form">
+                            <div className="error_user_form__user_modal">
                                 {errors.email.message}
                             </div>
                         )}
@@ -85,14 +84,14 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
                         <input
                             placeholder={"Name"}
                             {...register("firstname")}
-                            className={`input_user_form ${
+                            className={`input_user_form__user_modal ${
                                 touchedFields.firstname && errors.firstname
-                                    ? "input_error_user_form"
+                                    ? "input_error_user_form__user_modal"
                                     : ""
                             }`}
                         />
                         {touchedFields.firstname && errors.firstname && (
-                            <div className="error_user_form">
+                            <div className="error_user_form__user_modal">
                                 {errors.firstname.message}
                             </div>
                         )}
@@ -103,30 +102,30 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
                         <input
                             placeholder={"Surname"}
                             {...register("surname")}
-                            className={`input_user_form ${
+                            className={`input_user_form__user_modal ${
                                 touchedFields.surname && errors.surname
-                                    ? "input_error_user_form"
+                                    ? "input_error_user_form__user_modal"
                                     : ""
                             }`}
                         />
                         {touchedFields.surname && errors.surname && (
-                            <div className="error_user_form">
+                            <div className="error_user_form__user_modal">
                                 {errors.surname.message}
                             </div>
                         )}
                     </label>
 
-                    <div className="div_button_user_form">
+                    <div className="div_button_user_form__user_modal">
                         <button
                             type="button"
-                            className="button_user_form"
+                            className="button_user_form__user_modal"
                             onClick={onClose}
                         >
                             CANCEL
                         </button>
                         <button
                             type="submit"
-                            className="button_user_form"
+                            className="button_user_form__user_modal"
                             disabled={!isValid}
                         >
                             CREATE

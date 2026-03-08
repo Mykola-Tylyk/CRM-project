@@ -1,20 +1,23 @@
 import "./UsersList.css";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
 import { useAppSelector } from "../../redux/hooks/useAppSelector";
 import { userSliceActions } from "../../redux/slices/userSlice/userSlice";
-import { CreateUserModal } from "../createUserModal/CreateUserModal";
 import { Preloader } from "../preloader/Preloader";
 import { User } from "./User";
 
-const UsersList = () => {
-    const { users, loadState } = useAppSelector((state) => state.userSlice);
-    const dispatch = useAppDispatch();
+type Props = {
+    onCreateClick?: () => void;
+};
 
-    const [showModal, setShowModal] = useState(false);
+const UsersList = ({ onCreateClick }: Props) => {
+    const { users, loadState, trigger } = useAppSelector(
+        (state) => state.userSlice,
+    );
+    const dispatch = useAppDispatch();
 
     const [query] = useSearchParams({ page: "1" });
 
@@ -32,36 +35,26 @@ const UsersList = () => {
 
     useEffect(() => {
         fetchUsers();
-    }, [dispatch, page]);
-
-    const handleUserCreated = () => {
-        setShowModal(false);
-        fetchUsers();
-    };
+    }, [dispatch, page, trigger]);
 
     if (!loadState) {
         return <Preloader />;
     }
 
     return (
-        <div className={"div_wrapper_users_list"}>
-            <button
-                onClick={() => setShowModal(true)}
-                className={"button_create_users_list"}
-            >
-                CREATE
-            </button>
+        <div className={"div_wrapper__users_list"}>
+            {onCreateClick && (
+                <button
+                    onClick={onCreateClick}
+                    className={"button_create__users_list"}
+                >
+                    CREATE
+                </button>
+            )}
             {users.data.length !== 0 ? (
                 users.data.map((user) => <User key={user._id} user={user} />)
             ) : (
-                <div>No users</div>
-            )}
-
-            {showModal && (
-                <CreateUserModal
-                    onClose={() => setShowModal(false)}
-                    onSuccess={handleUserCreated}
-                />
+                <div className={"div_no_users__users_list"}>No users</div>
             )}
         </div>
     );

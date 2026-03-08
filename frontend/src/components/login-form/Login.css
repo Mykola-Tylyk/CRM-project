@@ -1,0 +1,81 @@
+.form_activate__login
+{
+    position: fixed;
+    inset: 0;
+    background: #4CAF50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_window__login
+{
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+}
+
+.create_activate_form__login
+{
+    padding: 30px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+}
+
+.input_activate_form__login
+{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid transparent;
+    outline: none;
+    transition: border 0.5s ease;
+    margin-top: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 15px;
+    width: 170px;
+}
+
+.input_error_activate_form__login
+{
+    border: 1px solid red;
+    transition: border 0.5s ease;
+}
+
+.error_password_activate_form__login
+,
+.errors_activate_form__login
+{
+    max-height: 50px;
+    width: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    margin-top: 6px;
+    padding: 0 15px;
+    animation: blink-text__login 3s infinite;
+}
+
+@keyframes blink-text__login {
+    0%, 100% {
+        color: red;
+        opacity: 1;
+    }
+    50% {
+        color: red;
+        opacity: 0.2;
+    }
+}
+
+.button_activate_form__login
+{
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #43a047;
+    padding: 10px 20px;
+}

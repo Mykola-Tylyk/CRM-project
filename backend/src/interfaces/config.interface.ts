@@ -1,5 +1,7 @@
 export interface IConfig {
-    PORT: string;
+    BACKEND_PORT: string;
+    FRONTEND_PORT: string;
+
     MONGO_URI: string;
 
     JWT_ACCESS_SECRET: string;

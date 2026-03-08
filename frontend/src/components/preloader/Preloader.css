@@ -1,4 +1,4 @@
-.loader-wrapper {
+.loader-wrapper__preloader {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,18 +6,18 @@
     width: 100vw;
 }
 
-.text {
+.text__preloader {
     color: #43a047;
     padding-right: 10px;
     padding-bottom: 15px;
 }
 
-.dots {
+.dots__preloader {
     display: flex;
     gap: 5px;
 }
 
-.dots div {
+.dots__preloader div {
     width: 10px;
     height: 10px;
     background: #43a047;
@@ -25,8 +25,8 @@
     animation: bounce 0.6s infinite alternate;
 }
 
-.dots div:nth-child(2) { animation-delay: 0.2s; }
-.dots div:nth-child(3) { animation-delay: 0.4s; }
+.dots__preloader div:nth-child(2) { animation-delay: 0.2s; }
+.dots__preloader div:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes bounce {
     to {

@@ -43,24 +43,24 @@ const FormAddComment: FC<IFormProps> = ({ selectedOrderId, onSuccess }) => {
     return (
         <div>
             <form onSubmit={handleSubmit(handler)}>
-                <div className={"form_div_comments_list"}>
+                <div className={"form_div__form_add_comment"}>
                     <input
                         type="text"
                         placeholder="Comment"
                         {...register("comment")}
-                        className={`input_comments_list ${showError && errors.comment ? "input_error_comments_list" : ""}`}
+                        className={`input__form_add_comment ${showError && errors.comment ? "input_error__form_add_comment" : ""}`}
                         onFocus={() => setShowError(true)}
                         onBlur={() => setShowError(false)}
                     />
                     <button
                         disabled={!isValid}
-                        className={"button_comments_list"}
+                        className={"button__form_add_comment"}
                     >
                         SUBMIT
                     </button>
                 </div>
                 {showError && errors.comment && (
-                    <div className={"form_div_errors_comments_list"}>
+                    <div className={"form_div_errors__form_add_comment"}>
                         {errors.comment.message}
                     </div>
                 )}

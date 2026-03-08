@@ -1,0 +1,94 @@
+.modal_overlay__user_modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal_window__user_modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.create_user_form__user_modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 5px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    align-items: stretch;
+}
+
+.input_user_form__user_modal {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid transparent;
+    outline: none;
+    transition: border 0.5s ease;
+    margin-top: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 15px;
+    width: 170px;
+}
+
+.input_error_user_form__user_modal {
+    border: 1px solid red;
+    transition: border 0.5s ease;
+}
+
+.error_user_form__user_modal {
+    max-height: 50px;
+    width: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    margin-top: 6px;
+    padding: 0 15px;
+    animation: blink-text__user_modal 3s infinite;
+}
+
+@keyframes blink-text__user_modal {
+    0%, 100% {
+        color: red;
+        opacity: 1;
+    }
+    50% {
+        color: red;
+        opacity: 0.2;
+    }
+}
+
+.div_button_user_form__user_modal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button_user_form__user_modal {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #43a047;
+    padding: 10px 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

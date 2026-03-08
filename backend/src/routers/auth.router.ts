@@ -9,6 +9,8 @@ const router = Router();
 
 router.get(
     "/activate/:id",
+    authMiddleware.checkAccessToken,
+    authMiddleware.isAdmin,
     commonMiddleware.validateId("id"),
     authController.generateActivateToken,
 );
@@ -22,6 +24,8 @@ router.post(
 router.get(
     "/recovery/:id",
     commonMiddleware.validateId("id"),
+    authMiddleware.checkAccessToken,
+    authMiddleware.isAdmin,
     authController.generateRecoveryToken,
 );
 
@@ -32,18 +36,19 @@ router.post(
 );
 
 router.post(
-    "/sine-in",
+    "/sign-in",
     commonMiddleware.validateBody(AuthValidator.login),
     authController.sineIn,
 );
 
 router.post(
     "/refresh",
-    commonMiddleware.validateBody(AuthValidator.checkRefreshToken),
     authMiddleware.checkRefreshToken,
     authController.refresh,
 );
 
 router.post("/logout", authMiddleware.checkAccessToken, authController.logout);
+
+router.get("/me", authMiddleware.checkAccessToken, authController.me);
 
 export const authRouter = router;

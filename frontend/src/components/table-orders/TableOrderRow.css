@@ -1,28 +1,28 @@
 /*-------------------------------------------rowStyle-----------------------------------------------*/
-.row_style {
+.row_style__table_order_row {
     cursor: pointer;
     color: #000000;
 }
 
-.row_style.even {
+.row_style__table_order_row.even {
     background-color: #f6f6f6;
 }
 
-.row_style.odd {
+.row_style__table_order_row.odd {
     background-color: #e9e9e9;
 }
 
-.row_style.hovered {
+.row_style__table_order_row.hovered {
     background-color: #43a047;
     color: #ffffff;
 }
 
-.row_style.hovered.selected.even {
+.row_style__table_order_row.hovered.selected.even {
     background-color: #f6f6f6;
     color: #000000;
 }
 
-.row_style.hovered.selected.odd {
+.row_style__table_order_row.hovered.selected.odd {
     background-color: #e9e9e9;
     color: #000000;
 }
@@ -30,32 +30,32 @@
 
 /*-------------------------------------------tableData-----------------------------------------------*/
 
-.table_data {
+.table_data__table_order_row {
     padding: 5px 10px;
 }
 
-.table_data.even {
+.table_data__table_order_row.even {
     background-color: #f6f6f6;
 }
 
-.table_data.odd {
+.table_data__table_order_row.odd {
     background-color: #e9e9e9;
 }
 
 /*-------------------------------------------div-----------------------------------------------*/
 
-.div_wrapper_open_data_window {
+.div_wrapper_open_data_window__table_order_row {
     display: flex;
     justify-content: space-between;
     padding: 0 20px;
     margin-top: 20px;
 }
 
-.div_message_utm_open_data_window {
+.div_message_utm_open_data_window__table_order_row {
     padding: 10px;
 }
 
-.div_wrapper_comments_list_open_data_window {
+.div_wrapper_comments_list_open_data_window__table_order_row {
     width: 40%;
 }
 

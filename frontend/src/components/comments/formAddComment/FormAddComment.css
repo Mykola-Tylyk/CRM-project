@@ -1,4 +1,4 @@
-.form_div_comments_list {
+.form_div__form_add_comment {
     display: flex;
     border-radius: 10px;
     padding: 10px;
@@ -8,7 +8,7 @@
     margin-bottom: 20px;
 }
 
-.input_comments_list {
+.input__form_add_comment {
     flex: 1;
     border: 1px solid transparent;
     border-radius: 5px;
@@ -18,12 +18,12 @@
     transition: border 0.5s ease;
 }
 
-.input_error_comments_list {
+.input_error__form_add_comment {
     border: 1px solid red;
     transition: border 0.5s ease;
 }
 
-.button_comments_list {
+.button__form_add_comment {
     background-color: #43a047;
     border: none;
     border-radius: 5px;
@@ -34,22 +34,27 @@
     transition: background-color 0.5s ease;
 }
 
-.button_comments_list:disabled {
+.button__form_add_comment:disabled {
     background-color: #e9e9e9;
     color: #b1b1b1;
     cursor: not-allowed;
 }
 
-.form_div_errors_comments_list {
+.form_div_errors__form_add_comment {
     margin-bottom: 20px;
     color: red;
     padding: 0 15px;
-    animation: blink 3s infinite;
+    animation: blink__form_add_comment 3s infinite;
 }
 
-@keyframes blink {
+@keyframes blink__form_add_comment {
+    0%, 100% {
+        color: red;
+        opacity: 1;
+    }
     50% {
-        opacity: 0;
+        color: red;
+        opacity: 0.2;
     }
 }
 

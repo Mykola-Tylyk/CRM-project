@@ -1,17 +1,15 @@
-import axios from "axios";
-
+import { urls } from "../constants/urls";
 import { IComment } from "../interfaces/comment.interface";
-
-const axiosInstance = axios.create();
+import { apiService } from "./api.service";
 
 export const getAllComments = async (): Promise<IComment[]> => {
-    const { data } = await axiosInstance.get<IComment[]>("/api/comments");
+    const { data } = await apiService.get<IComment[]>(urls.comments.base);
     return data;
 };
 
 export const getByIdComments = async (orderId: string): Promise<IComment> => {
-    const { data } = await axiosInstance.get<IComment>(
-        "/api/comments/" + orderId,
+    const { data } = await apiService.get<IComment>(
+        urls.comments.byId(orderId),
     );
     return data;
 };
@@ -23,7 +21,7 @@ export const addComment = async ({
     comment: string;
     orderId: string;
 }): Promise<IComment> => {
-    const { data } = await axiosInstance.post<IComment>("/api/comments", {
+    const { data } = await apiService.post<IComment>(urls.comments.base, {
         comment: comment,
         orderId: orderId,
     });

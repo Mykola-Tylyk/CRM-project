@@ -1,0 +1,25 @@
+.div_message__not_found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    color: #4CAF50;
+}
+
+.div_wrapper_button_login__not_found {
+    margin-top: 50px;
+}
+
+.button_login__not_found {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.button_login__not_found:hover {
+    background-color: #388d3c;
+}

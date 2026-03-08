@@ -1,8 +1,8 @@
-.div_wrapper_users_list {
+.div_wrapper__users_list {
     padding: 10px 100px;
 }
 
-.button_create_users_list {
+.button_create__users_list {
     margin-bottom: 10px;
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -11,6 +11,16 @@
     color: white;
 }
 
-.button_create_users_list:hover {
+.button_create__users_list:hover {
     background-color: #388d3c;
+}
+
+.div_no_users__users_list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #4CAF50;
+    font-size: 40px;
+    font-weight: bold;
 }

@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 
+import { RoleEnum } from "../enums/role.enum";
 import { StatusCodesEnum } from "../enums/status-codes.enum";
 import { TokenTypeEnum } from "../enums/token-type.enum";
 import { ApiError } from "../errors/api.error";
-import { IRefreshToken } from "../interfaces/token.interface";
+import { cookiesService } from "../helper/cookies";
 import { tokenService } from "../services/token.service";
 import { userService } from "../services/user.service";
 
@@ -14,16 +15,7 @@ class AuthMiddleware {
         next: NextFunction,
     ) {
         try {
-            const authorization = req.headers.authorization;
-
-            if (!authorization) {
-                throw new ApiError(
-                    "No token provided",
-                    StatusCodesEnum.UNAUTHORIZED,
-                );
-            }
-
-            const accessToken = authorization.split(" ")[1];
+            const accessToken = req.cookies.accessToken;
 
             if (!accessToken) {
                 throw new ApiError(
@@ -73,7 +65,7 @@ class AuthMiddleware {
         next: NextFunction,
     ) {
         try {
-            const { refreshToken } = req.body as any as IRefreshToken;
+            const refreshToken = req.cookies.refreshToken;
 
             if (!refreshToken) {
                 throw new ApiError(
@@ -113,9 +105,26 @@ class AuthMiddleware {
             );
 
             res.locals.payload = verifyTokenPayload;
-
             next();
         } catch (e) {
+            cookiesService.clearCookies(res);
+            next(e);
+        }
+    }
+
+    public async isAdmin(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { _id } = res.locals.payload;
+            const user = await userService.getById(_id);
+            if (user.role !== RoleEnum.ADMIN) {
+                throw new ApiError(
+                    "No has permissions",
+                    StatusCodesEnum.FORBIDDEN,
+                );
+            }
+            next();
+        } catch (e) {
+            cookiesService.clearCookies(res);
             next(e);
         }
     }

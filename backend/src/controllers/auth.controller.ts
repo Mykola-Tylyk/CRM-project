@@ -2,9 +2,11 @@ import { NextFunction, Request, Response } from "express";
 
 import { ActionTokenTypeEnum } from "../enums/action-token-type.enum";
 import { StatusCodesEnum } from "../enums/status-codes.enum";
+import { cookiesService } from "../helper/cookies";
 import { IAuth } from "../interfaces/auth.interface";
 import { IUserPasswordDTO } from "../interfaces/user.interface";
 import { authService } from "../services/auth.service";
+import { userService } from "../services/user.service";
 
 class AuthController {
     public async generateActivateToken(
@@ -69,8 +71,14 @@ class AuthController {
     public async sineIn(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body as any as IAuth;
-            const data = await authService.sineIn({ email, password });
-            res.status(StatusCodesEnum.OK).json(data);
+            const { user, tokens } = await authService.sineIn({
+                email,
+                password,
+            });
+
+            cookiesService.setCookies(res, tokens);
+
+            res.status(StatusCodesEnum.OK).json(user);
         } catch (e) {
             next(e);
         }
@@ -80,6 +88,7 @@ class AuthController {
         try {
             const { _id } = res.locals.payload;
             const data = await authService.logout(_id);
+            cookiesService.clearCookies(res);
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);
@@ -89,8 +98,21 @@ class AuthController {
     public async refresh(req: Request, res: Response, next: NextFunction) {
         try {
             const { _id } = res.locals.payload;
-            const data = await authService.refresh(_id);
-            res.status(StatusCodesEnum.OK).json(data);
+            const { tokens } = await authService.refresh(_id);
+
+            cookiesService.setCookies(res, tokens);
+
+            res.status(StatusCodesEnum.OK).end();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async me(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { _id } = res.locals.payload;
+            const user = await userService.getById(_id);
+            res.status(StatusCodesEnum.OK).json(user);
         } catch (e) {
             next(e);
         }
