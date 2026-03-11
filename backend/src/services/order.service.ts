@@ -1,6 +1,10 @@
 import { StatusCodesEnum } from "../enums/status-codes.enum";
 import { ApiError } from "../errors/api.error";
-import { IOrder, IOrderQuery } from "../interfaces/order.interface";
+import {
+    IOrder,
+    IOrderQuery,
+    IOrderUpdate,
+} from "../interfaces/order.interface";
 import { IPaginatedResponse } from "../interfaces/paginated-response.interface";
 import { orderRepository } from "../repositories/order.repository";
 
@@ -23,6 +27,17 @@ class OrderService {
             nextPage: query.page < totalPages,
             data,
         };
+    }
+
+    public async update(data: IOrderUpdate): Promise<IOrder> {
+        const orderId = data._id;
+        const order = await orderRepository.update(orderId, data);
+
+        if (!order) {
+            throw new ApiError("Order not found", StatusCodesEnum.NOT_FOUND);
+        }
+
+        return order;
     }
 }
 

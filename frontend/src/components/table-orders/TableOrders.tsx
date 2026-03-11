@@ -98,7 +98,9 @@ const TableOrders = () => {
         "status",
         "sum",
         "already_paid",
+        "group",
         "created_at",
+        "manager",
     ];
 
     const colSpanLength = columns.length;

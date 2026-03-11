@@ -1,256 +1,748 @@
 {
-	"info": {
-		"_postman_id": "d2aba11b-88e6-4d86-931a-ad724ec2290b",
-		"name": "CRM-project",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "41485836"
-	},
-	"item": [
-		{
-			"name": "Comments",
-			"item": [
-				{
-					"name": "all comments",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "localhost:5000/comments",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"comments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create comments",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "comment",
-									"value": "Vasia zhuk best 23",
-									"type": "text"
-								},
-								{
-									"key": "orderId",
-									"value": "688e3a43180ee6b0edeec4b0",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "localhost:5000/comments",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"comments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "comments by id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "localhost:5000/comments/:order_id",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"comments",
-								":order_id"
-							],
-							"variable": [
-								{
-									"key": "order_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Orders",
-			"item": [
-				{
-					"name": "all orders",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "localhost:5000/orders",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"orders"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Users",
-			"item": [
-				{
-					"name": "all users",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "localhost:5000/users",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "users by id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "localhost:5000/users/:id",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create users",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Petia",
-									"type": "text"
-								},
-								{
-									"key": "surname",
-									"value": "Klimenko",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "klim@gmail.com",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "localhost:5000/users",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "d2aba11b-88e6-4d86-931a-ad724ec2290b",
+    "name": "CRM-project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "41485836"
+  },
+  "item": [
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "all comments",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/comments?pageSize=2&page=3",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "comments"
+              ],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "page",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create comments",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "comment",
+                  "value": "Vasia zhuk best 23",
+                  "type": "text",
+                  "uuid": "4175eedf-8a53-4137-a8fe-3ec02994280f"
+                },
+                {
+                  "key": "orderId",
+                  "value": "688e3a43180ee6b0edeec4b0",
+                  "type": "text",
+                  "uuid": "e0e9bfe8-e8fa-448b-9004-ea60e93b207b"
+                }
+              ]
+            },
+            "url": {
+              "raw": "localhost:5000/comments",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "comments by id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "localhost:5000/comments/:order_id",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "comments",
+                ":order_id"
+              ],
+              "variable": [
+                {
+                  "key": "order_id",
+                  "value": "688e3a43180ee6b0edeec4aa"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "all orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/orders?order=-_id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "25",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "searchName",
+                  "value": "a",
+                  "disabled": true
+                },
+                {
+                  "key": "searchSurname",
+                  "value": "a",
+                  "disabled": true
+                },
+                {
+                  "key": "searchEmail",
+                  "value": "gmail",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "searchPhone",
+                  "value": "067",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "searchAge",
+                  "value": "18",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "searchCourse",
+                  "value": "fs",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "order",
+                  "value": "-_id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update orders",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "_id",
+                  "value": "688e3a43180ee6b0edeec69c",
+                  "type": "text",
+                  "uuid": "b91bf7e8-751f-4797-9367-65551db250d8"
+                },
+                {
+                  "key": "name",
+                  "value": "Jhony",
+                  "type": "text",
+                  "uuid": "6564b98a-1264-46bf-b05f-a980916a0c94"
+                },
+                {
+                  "key": "age",
+                  "value": "72",
+                  "type": "text",
+                  "uuid": "b6debfab-3056-41d2-b07c-8903229e8a8b"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/orders",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "all users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/users",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "pageSize",
+                  "value": "3",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user by id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/users/:id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "689a311c2749eaeb00071164"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create users",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Alexeiy",
+                  "type": "text",
+                  "uuid": "b87e511e-b10c-4bf8-a988-cf035748223b"
+                },
+                {
+                  "key": "surname",
+                  "value": "Utuzik",
+                  "type": "text",
+                  "uuid": "c555dd8a-af1f-4ce4-b929-e21b089438f8"
+                },
+                {
+                  "key": "email",
+                  "value": "yadgg@mail.ru",
+                  "type": "text",
+                  "uuid": "e5d2e1d0-9352-468d-baa4-be4f63a1b34a"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/users",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user block by id",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/users/block/:id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "users",
+                "block",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "689a311c2749eaeb00071164"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user unblock by id",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/users/unblock/:id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "users",
+                "unblock",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "689a311c2749eaeb00071164"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Get Activate Token",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/activate/:id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "activate",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "689a329c2749eaeb0007116c"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Activate User",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "P@$$word1",
+                  "type": "text",
+                  "uuid": "e7e7f6b4-1ecd-4199-975c-1f81d5e26543"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/activate/:token",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "activate",
+                ":token"
+              ],
+              "variable": [
+                {
+                  "key": "token",
+                  "value": ".eyJfaWQiOiI2ODlhMzI5YzI3NDllYWViMDAwNzExNmMiLCJpYXQiOjE3NzI3MzQwMTcsImV4cCI6MTc3MjczNTgxN30.y9byNomajm6-DxVJirVmMZ0RNjaQTWV4tnenZlzCRbg"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign in",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();\r",
+                  "pm.environment.set(\"accessToken\", res.tokens.accessToken);\r",
+                  "pm.environment.set(\"refreshToken\", res.tokens.refreshToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "duda@gmail.com",
+                  "type": "text",
+                  "uuid": "1f8d4632-bad9-4752-ae0d-c11a2e1a65ab"
+                },
+                {
+                  "key": "password",
+                  "value": "P@$$word1",
+                  "type": "text",
+                  "uuid": "82fb2389-af57-425e-983f-3808e53f451e"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/sign-in",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "sign-in"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();\r",
+                  "pm.environment.set(\"accessToken\", res.tokens.accessToken);\r",
+                  "pm.environment.set(\"refreshToken\", res.tokens.refreshToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "refreshToken",
+                  "value": "{{refreshToken}}",
+                  "type": "text",
+                  "uuid": "89afaa4f-7e85-4486-8817-e087ba9886c9"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/refresh",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/logout",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recovery Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BaseUrl}}/auth/recovery/:id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "recovery",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6949c267cfebbab8bf9eab51"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Password Recovery",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "type": "text",
+                  "uuid": "8c01eea0-251c-420b-95e3-5464dc8dd198"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/recovery/:token",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "recovery",
+                ":token"
+              ],
+              "variable": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTQ5YzI2N2NmZWJiYWI4YmY5ZWFiNTEiLCJpYXQiOjE3NzE3ODMyNTIsImV4cCI6MTc3MTc4Mzg1Mn0.eKTBSVQ92RLNjupQwE_orjQe8Sl6e4Nh-d4MYwk6BkI"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/auth/me",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }

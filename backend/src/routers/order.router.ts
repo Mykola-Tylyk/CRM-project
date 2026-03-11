@@ -14,4 +14,11 @@ router.get(
     orderController.getAll,
 );
 
+router.patch(
+    "/",
+    authMiddleware.checkAccessToken,
+    commonMiddleware.validateBody(OrderValidator.update),
+    orderController.update,
+);
+
 export const orderRouter = router;

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { StatusCodesEnum } from "../enums/status-codes.enum";
-import { IOrderQuery } from "../interfaces/order.interface";
+import { IOrderQuery, IOrderUpdate } from "../interfaces/order.interface";
 import { orderService } from "../services/order.service";
 
 class OrderController {
@@ -9,6 +9,16 @@ class OrderController {
         try {
             const query = req.query as any as IOrderQuery;
             const data = await orderService.getAll(query);
+            res.status(StatusCodesEnum.OK).json(data);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async update(req: Request, res: Response, next: NextFunction) {
+        try {
+            const body = req.body as any as IOrderUpdate;
+            const data = await orderService.update(body);
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);

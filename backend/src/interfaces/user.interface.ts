@@ -38,3 +38,5 @@ export type IUserIdDTO = Pick<IUser, "_id">;
 export type IUserActivateDTO = Pick<IUser, "isActive" | "password">;
 
 export type IUserPasswordDTO = Pick<IUser, "password">;
+
+export type IUserForOrderDTO = Pick<IUser, "_id" | "name">;

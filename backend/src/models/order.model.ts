@@ -19,8 +19,16 @@ const orderSchema = new Schema<IOrder>(
         sum: { type: Schema.Types.Mixed, default: null },
         surname: { type: String, required: true },
         utm: { type: String, required: true },
+        group: { type: String, default: null },
+        userId: { type: Schema.Types.ObjectId, default: null, ref: "users" },
     },
-    // { timestamps: true, versionKey: false },
+    {
+        timestamps: {
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+        },
+        versionKey: false,
+    },
 );
 
 export const Order = model<IOrder>("orders", orderSchema);

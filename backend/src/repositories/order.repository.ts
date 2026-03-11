@@ -1,6 +1,10 @@
 import { FilterQuery } from "mongoose";
 
-import { IOrder, IOrderQuery } from "../interfaces/order.interface";
+import {
+    IOrder,
+    IOrderQuery,
+    IOrderUpdate,
+} from "../interfaces/order.interface";
 import { Order } from "../models/order.model";
 
 class OrderRepository {
@@ -70,13 +74,19 @@ class OrderRepository {
             Order.find(filterObject)
                 .limit(query.pageSize)
                 .skip(skip)
-                .sort(query.order),
+                .sort(query.order)
+                .populate("userId", "name"),
             Order.find(filterObject).countDocuments(),
         ]);
     }
 
     public getById(id: string): Promise<IOrder> {
         return Order.findById(id);
+    }
+
+    public update(orderId: string, data: IOrderUpdate): Promise<IOrder> {
+        delete data._id;
+        return Order.findByIdAndUpdate(orderId, { $set: data }, { new: true });
     }
 }
 

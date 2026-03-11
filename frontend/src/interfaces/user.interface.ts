@@ -13,3 +13,5 @@ export interface IUser extends IBase {
 }
 
 export type IUserDTO = Pick<IUser, "name" | "surname" | "email">;
+
+export type IUserForOrderDTO = Pick<IUser, "_id" | "name">;

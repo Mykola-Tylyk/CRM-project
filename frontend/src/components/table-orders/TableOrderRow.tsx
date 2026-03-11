@@ -92,11 +92,17 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                     {displayValue(order.already_paid)}
                 </td>
                 <td className={"table_data__table_order_row"}>
+                    {displayValue(order.group)}
+                </td>
+                <td className={"table_data__table_order_row"}>
                     {new Date(order.created_at).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "2-digit",
                     })}
+                </td>
+                <td className={"table_data__table_order_row"}>
+                    {displayValue(order.userId?.name)}
                 </td>
             </tr>
             {isSelected && (
