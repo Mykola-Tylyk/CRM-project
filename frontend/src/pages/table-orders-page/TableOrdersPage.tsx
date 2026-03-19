@@ -6,17 +6,17 @@ import { Pagination } from "../../components/paginations/Pagination";
 import { TableOrders } from "../../components/table-orders/TableOrders";
 import { ToolbarOrder } from "../../components/toolbarOrder/ToolbarOrder";
 import { useAppSelector } from "../../redux/hooks/useAppSelector";
-import { ErrorPage } from "../error-page/ErrorPage";
+// import { ErrorPage } from "../error-page/ErrorPage";
 
 const TableOrdersPage = () => {
     const {
         orders: { totalPages },
-        errorMessage,
+        // errorMessage,
     } = useAppSelector((state) => state.orderSlice);
 
-    if (errorMessage) {
-        return <ErrorPage errorMessage={errorMessage} />;
-    }
+    // if (errorMessage) {
+    //     return <ErrorPage errorMessage={errorMessage} />;
+    // }
 
     return (
         <div className={"grid__table_orders_page"}>

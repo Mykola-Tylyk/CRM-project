@@ -39,16 +39,20 @@ const initialState: UserSliceType = {
 
 const loadUsers = createAsyncThunk<
     IPaginatedResponse<IUser>,
-    { pageSize: number; page: number },
+    { pageSize: number; page: number; order?: string },
     { rejectValue: string }
 >(
     "userSlice/loadUsers",
     async (
-        { pageSize, page }: { pageSize: number; page: number },
+        {
+            pageSize,
+            page,
+            order,
+        }: { pageSize: number; page: number; order?: string },
         thunkAPI,
     ) => {
         try {
-            const users = await getAllUsers({ pageSize, page });
+            const users = await getAllUsers({ pageSize, page, order });
             return thunkAPI.fulfillWithValue(users);
         } catch (e) {
             if (axios.isAxiosError(e)) {

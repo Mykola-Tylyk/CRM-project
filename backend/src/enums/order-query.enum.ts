@@ -11,5 +11,7 @@ export enum OrderQueryEnum {
     STATUS = "status",
     SUM = "sum",
     ALREADY_PAID = "already_paid",
+    GROUP = "group",
     CREATED_AT = "created_at",
+    USER_NAME = "user_name",
 }

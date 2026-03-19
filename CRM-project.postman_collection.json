@@ -214,7 +214,7 @@
               "urlencoded": [
                 {
                   "key": "_id",
-                  "value": "688e3a43180ee6b0edeec69c",
+                  "value": "688e3a43180ee6b0edeec69a",
                   "type": "text",
                   "uuid": "b91bf7e8-751f-4797-9367-65551db250d8"
                 },
@@ -222,13 +222,28 @@
                   "key": "name",
                   "value": "Jhony",
                   "type": "text",
-                  "uuid": "6564b98a-1264-46bf-b05f-a980916a0c94"
+                  "uuid": "6564b98a-1264-46bf-b05f-a980916a0c94",
+                  "disabled": true
                 },
                 {
                   "key": "age",
                   "value": "72",
                   "type": "text",
-                  "uuid": "b6debfab-3056-41d2-b07c-8903229e8a8b"
+                  "uuid": "b6debfab-3056-41d2-b07c-8903229e8a8b",
+                  "disabled": true
+                },
+                {
+                  "key": "user_id",
+                  "value": "6949c267cfebbab8bf9eab51",
+                  "type": "text",
+                  "uuid": "364c7243-77bb-4b50-ac5f-2fcef533bfd4",
+                  "disabled": true
+                },
+                {
+                  "key": "group",
+                  "value": "gr1",
+                  "type": "text",
+                  "uuid": "bf5b44bb-bdf2-4b91-842a-2b0fdc9a54ac"
                 }
               ]
             },
@@ -239,6 +254,79 @@
               ],
               "path": [
                 "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "export orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/orders/export?order=-_id",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "export"
+              ],
+              "query": [
+                {
+                  "key": "searchName",
+                  "value": "a",
+                  "disabled": true
+                },
+                {
+                  "key": "searchSurname",
+                  "value": "a",
+                  "disabled": true
+                },
+                {
+                  "key": "searchEmail",
+                  "value": "gmail",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "searchPhone",
+                  "value": "067",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "searchAge",
+                  "value": "18",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "searchCourse",
+                  "value": "fs",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "order",
+                  "value": "-_id"
+                },
+                {
+                  "key": "order",
+                  "value": "-user_name",
+                  "disabled": true
+                }
               ]
             }
           },
@@ -272,7 +360,7 @@
               "urlencoded": []
             },
             "url": {
-              "raw": "{{BaseUrl}}/users",
+              "raw": "{{BaseUrl}}/users?order=-createdAt",
               "host": [
                 "{{BaseUrl}}"
               ],
@@ -289,6 +377,16 @@
                   "key": "page",
                   "value": "1",
                   "disabled": true
+                },
+                {
+                  "key": "order",
+                  "value": "createdAt",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "order",
+                  "value": "-createdAt"
                 }
               ]
             }
@@ -545,13 +643,27 @@
                   "key": "email",
                   "value": "duda@gmail.com",
                   "type": "text",
-                  "uuid": "1f8d4632-bad9-4752-ae0d-c11a2e1a65ab"
+                  "uuid": "1f8d4632-bad9-4752-ae0d-c11a2e1a65ab",
+                  "disabled": true
                 },
                 {
                   "key": "password",
                   "value": "P@$$word1",
                   "type": "text",
-                  "uuid": "82fb2389-af57-425e-983f-3808e53f451e"
+                  "uuid": "82fb2389-af57-425e-983f-3808e53f451e",
+                  "disabled": true
+                },
+                {
+                  "key": "email",
+                  "value": "admin@gmail.com",
+                  "type": "text",
+                  "uuid": "8d891d19-5f1f-40e1-bc89-5b9f89b4b9ab"
+                },
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "type": "text",
+                  "uuid": "44e680e4-a97a-4124-9405-b238be986025"
                 }
               ]
             },
@@ -593,14 +705,7 @@
             "header": [],
             "body": {
               "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "refreshToken",
-                  "value": "{{refreshToken}}",
-                  "type": "text",
-                  "uuid": "89afaa4f-7e85-4486-8817-e087ba9886c9"
-                }
-              ]
+              "urlencoded": []
             },
             "url": {
               "raw": "{{BaseUrl}}/auth/refresh",

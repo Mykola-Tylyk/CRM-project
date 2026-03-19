@@ -1,5 +1,3 @@
-import { IUserForOrderDTO } from "./user.interface";
-
 export interface IOrder {
     _id: string;
     age: number;
@@ -17,5 +15,6 @@ export interface IOrder {
     surname: string;
     utm: string;
     group: null | string;
-    userId: null | IUserForOrderDTO;
+    user_id: null | string;
+    user_name: null | string;
 }

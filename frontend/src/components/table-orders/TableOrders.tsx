@@ -10,6 +10,7 @@ import { Preloader } from "../preloader/Preloader";
 import { TableOrderRow } from "./TableOrderRow";
 
 const TableOrders = () => {
+    const { user } = useAppSelector((state) => state.authSlice);
     const { orders, loadState, order } = useAppSelector(
         (state) => state.orderSlice,
     );
@@ -33,13 +34,27 @@ const TableOrders = () => {
         const searchParamFormat = query.get("course_format") || undefined;
         const searchParamType = query.get("course_type") || undefined;
         const searchParamStatus = query.get("status") || undefined;
+        const searchParamGroup = query.get("group") || undefined;
+        let searchParamMy = query.get("my") || undefined;
+
+        if (searchParamMy === "true") {
+            searchParamMy = user?._id;
+        }
+
+        const columnMap: Record<string, string> = { manager: "user_name" };
 
         if (isPageValid) {
+            const apiField = orderParam
+                ? orderParam.startsWith("-")
+                    ? `-${columnMap[orderParam.replace("-", "")] || orderParam.replace("-", "")}`
+                    : columnMap[orderParam] || orderParam
+                : undefined;
+
             dispatch(
                 orderSliceActions.loadOrders({
                     pageSize,
                     page,
-                    order: orderParam,
+                    order: apiField,
                     name: searchParamName,
                     surname: searchParamSurname,
                     email: searchParamEmail,
@@ -49,11 +64,14 @@ const TableOrders = () => {
                     course_format: searchParamFormat,
                     course_type: searchParamType,
                     status: searchParamStatus,
+                    group: searchParamGroup,
+                    my: searchParamMy,
                 }),
             );
             dispatch(orderSliceActions.setOrder(orderParam));
         } else {
-            dispatch(orderSliceActions.setError("Invalid page parameter"));
+            // dispatch(orderSliceActions.setError("Invalid page parameter"));
+            setQuery({ page: "1" });
         }
     }, [dispatch, page, query]);
 
@@ -110,49 +128,51 @@ const TableOrders = () => {
     }
 
     return (
-        <div className={"grid"}>
+        <div className={"div_wrapper__table_orders"}>
             {orders.data.length !== 0 ? (
-                <table className={"table__table_orders"}>
-                    <thead className={"table_thead__table_orders"}>
-                        <tr>
-                            {columns.map((column, index) => (
-                                <th
-                                    key={index}
-                                    className={"table_header__table_orders"}
-                                    onClick={() => handleSort(column)}
-                                >
-                                    <span
-                                        className={
-                                            "table_header_span_column__table_orders"
-                                        }
+                <div className={"grid"}>
+                    <table className={"table__table_orders"}>
+                        <thead className={"table_thead__table_orders"}>
+                            <tr>
+                                {columns.map((column, index) => (
+                                    <th
+                                        key={index}
+                                        className={"table_header__table_orders"}
+                                        onClick={() => handleSort(column)}
                                     >
-                                        {column}
                                         <span
                                             className={
-                                                "table_header_span_arrow__table_orders"
+                                                "table_header_span_column__table_orders"
                                             }
                                         >
-                                            {renderArrow(column)}
+                                            {column}
+                                            <span
+                                                className={
+                                                    "table_header_span_arrow__table_orders"
+                                                }
+                                            >
+                                                {renderArrow(column)}
+                                            </span>
                                         </span>
-                                    </span>
-                                </th>
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {orders.data.map((order, index) => (
+                                <TableOrderRow
+                                    key={order._id}
+                                    order={order}
+                                    index={index}
+                                    colSpanLength={colSpanLength}
+                                    isSelected={selectedId === order._id}
+                                    onClick={() => handleSelect(order._id)}
+                                    selectedOrderId={selectedId}
+                                />
                             ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders.data.map((order, index) => (
-                            <TableOrderRow
-                                key={order._id}
-                                order={order}
-                                index={index}
-                                colSpanLength={colSpanLength}
-                                isSelected={selectedId === order._id}
-                                onClick={() => handleSelect(order._id)}
-                                selectedOrderId={selectedId}
-                            />
-                        ))}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <div className={"div_no_orders__table_orders"}>No orders</div>
             )}

@@ -26,6 +26,7 @@ const initialState: OrderSliceType = {
         prevPage: false,
         nextPage: false,
         data: [],
+        groups: [],
     },
     loadState: false,
     errorMessage: null,
@@ -48,6 +49,8 @@ const loadOrders = createAsyncThunk(
             course_format,
             course_type,
             status,
+            group,
+            my,
         }: {
             pageSize: number;
             page: number;
@@ -61,6 +64,8 @@ const loadOrders = createAsyncThunk(
             course_format?: string;
             course_type?: string;
             status?: string;
+            group?: string;
+            my?: string;
         },
         thunkAPI,
     ) => {
@@ -78,6 +83,8 @@ const loadOrders = createAsyncThunk(
                 course_format,
                 course_type,
                 status,
+                group,
+                my,
             });
             return thunkAPI.fulfillWithValue(orders);
         } catch (e) {

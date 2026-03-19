@@ -1,3 +1,7 @@
+.div_wrapper__table_orders {
+    height: 100%
+}
+
 .table__table_orders {
     border-collapse: collapse;
     width: 100%;
@@ -31,8 +35,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     color: #4CAF50;
     font-size: 40px;
     font-weight: bold;
+    height: 100%;
 }

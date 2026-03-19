@@ -102,7 +102,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                     })}
                 </td>
                 <td className={"table_data__table_order_row"}>
-                    {displayValue(order.userId?.name)}
+                    {displayValue(order.user_name)}
                 </td>
             </tr>
             {isSelected && (

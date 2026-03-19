@@ -15,6 +15,34 @@ class OrderController {
         }
     }
 
+    public async getAllForExport(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ) {
+        try {
+            const query = req.query as any as IOrderQuery;
+            const workbook = await orderService.getAllForExport(query);
+
+            res.setHeader(
+                "Content-Type",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            );
+
+            const date = new Date().toISOString().split("T")[0];
+
+            res.setHeader(
+                "Content-Disposition",
+                `attachment; filename=orders_${date}.xlsx`,
+            );
+
+            await workbook.xlsx.write(res);
+            res.status(StatusCodesEnum.OK).end();
+        } catch (e) {
+            next(e);
+        }
+    }
+
     public async update(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body as any as IOrderUpdate;

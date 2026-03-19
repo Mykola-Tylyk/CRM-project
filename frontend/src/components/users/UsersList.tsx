@@ -24,10 +24,11 @@ const UsersList = ({ onCreateClick }: Props) => {
     const pageSize = 5;
     const page = Number(query.get("page"));
     const isPageValid = Number.isInteger(page) && page > 0;
+    const order = "-createdAt";
 
     const fetchUsers = () => {
         if (isPageValid) {
-            dispatch(userSliceActions.loadUsers({ pageSize, page }));
+            dispatch(userSliceActions.loadUsers({ pageSize, page, order }));
         } else {
             dispatch(userSliceActions.setError("Invalid page parameter"));
         }

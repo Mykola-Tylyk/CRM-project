@@ -30,29 +30,36 @@ const CommentsList: FC<CommentsListProps> = ({ selectedOrderId }) => {
     }, [selectedOrderId]);
 
     return (
-        <div>
-            <div className={"div_with_comments__comments_list"}>
-                {comments ? (
-                    [...comments.comments]
-                        .slice(-3)
-                        .reverse()
-                        .map((comment, index, array) => (
-                            <div key={comments._id}>
-                                <Comment
-                                    comment={comment}
-                                    createdAt={comments.createdAt}
-                                />
-                                {index < array.length - 1 && <hr />}
-                            </div>
-                        ))
-                ) : (
-                    <div>No comments</div>
-                )}
+        <div className={"div_wrapper__comments_list"}>
+            <div>
+                <div className={"div_with_comments__comments_list"}>
+                    {comments ? (
+                        [...comments.comments]
+                            .slice(-3)
+                            .reverse()
+                            .map((comment, index, array) => (
+                                <div key={comments._id}>
+                                    <Comment
+                                        comment={comment}
+                                        createdAt={comments.createdAt}
+                                    />
+                                    {index < array.length - 1 && <hr />}
+                                </div>
+                            ))
+                    ) : (
+                        <div>No comments</div>
+                    )}
+                </div>
+                <FormAddComment
+                    selectedOrderId={selectedOrderId}
+                    onSuccess={reloadComments}
+                />
             </div>
-            <FormAddComment
-                selectedOrderId={selectedOrderId}
-                onSuccess={reloadComments}
-            />
+            <div className={"div_wrapper_button__comments_list"}>
+                <button disabled={true} className={"button__comments_list"}>
+                    EDIT
+                </button>
+            </div>
         </div>
     );
 };

@@ -25,6 +25,7 @@ export const urls = {
     },
     orders: {
         base: `${orders}`,
+        export: `${orders}/export`,
     },
     comments: {
         base: `${comments}`,

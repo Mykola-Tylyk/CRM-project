@@ -1,7 +1,5 @@
 import { Types } from "mongoose";
 
-import { IUserForOrderDTO } from "./user.interface";
-
 export interface IOrder {
     _id: string;
     age: number;
@@ -19,13 +17,14 @@ export interface IOrder {
     surname: string;
     utm: string;
     group?: null | string;
-    userId?: null | IUserForOrderDTO;
+    user_id?: null | Types.ObjectId;
+    user_name?: null | string;
     updated_at?: Date;
 }
 
 export interface IOrderQuery {
-    pageSize: number;
-    page: number;
+    pageSize?: number;
+    page?: number;
     searchName?: string;
     searchSurname?: string;
     searchEmail?: string;
@@ -35,6 +34,8 @@ export interface IOrderQuery {
     searchFormat?: string;
     searchType?: string;
     searchStatus?: string;
+    searchGroup?: string;
+    searchMy?: string;
     order?: string;
 }
 
@@ -54,5 +55,6 @@ export interface IOrderUpdate {
     surname?: string;
     utm?: string;
     group?: null | string;
-    userId?: null | Types.ObjectId;
+    user_id?: null | string;
+    user_name?: null | string;
 }

@@ -17,6 +17,7 @@ export interface IUser extends IBase {
 export interface IUserQuery {
     pageSize: number;
     page: number;
+    order?: string;
 }
 
 export interface IUserUpdateDTO {

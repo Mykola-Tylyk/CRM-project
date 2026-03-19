@@ -10,7 +10,7 @@ class UserRepository {
     public getAll(query: IUserQuery): Promise<[IUser[], number]> {
         const skip = query.pageSize * (query.page - 1);
         return Promise.all([
-            User.find().limit(query.pageSize).skip(skip),
+            User.find().limit(query.pageSize).skip(skip).sort(query.order),
             User.find().countDocuments(),
         ]);
     }

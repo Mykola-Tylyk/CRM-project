@@ -1,4 +1,4 @@
-import { FilterQuery } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 
 import {
     IOrder,
@@ -70,12 +70,22 @@ class OrderRepository {
             };
         }
 
+        if (query.searchGroup) {
+            filterObject.group = {
+                $regex: query.searchGroup,
+                $options: "i",
+            };
+        }
+
+        if (query.searchMy) {
+            filterObject.user_id = new Types.ObjectId(query.searchMy);
+        }
+
         return Promise.all([
             Order.find(filterObject)
                 .limit(query.pageSize)
                 .skip(skip)
-                .sort(query.order)
-                .populate("userId", "name"),
+                .sort(query.order),
             Order.find(filterObject).countDocuments(),
         ]);
     }

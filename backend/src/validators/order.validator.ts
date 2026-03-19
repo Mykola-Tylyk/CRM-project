@@ -37,6 +37,7 @@ export class OrderValidator {
             "string.base": "The course_format must be a string",
         });
     private static email = joi.string().email().trim();
+    private static searchEmail = joi.string().trim();
     private static msg = joi.string();
     private static name = joi.string().trim();
     private static phone = joi.string().trim();
@@ -53,21 +54,43 @@ export class OrderValidator {
     private static sum = joi.number();
     private static surname = joi.string().trim();
     private static utm = joi.string();
-    private static group = joi.string();
-    private static userId = joi.string().regex(RegexEnum.OBJECT_ID);
+    private static group = joi.string().max(10);
+    private static user_id = joi.string().regex(RegexEnum.OBJECT_ID);
 
     public static query = joi.object({
         pageSize: joi.number().min(1).default(25),
         page: joi.number().min(1).default(1),
         searchName: this.name,
         searchSurname: this.surname,
-        searchEmail: this.email,
+        searchEmail: this.searchEmail,
         searchPhone: this.phone,
         searchAge: this.age,
         searchCourse: this.course,
         searchFormat: this.course_format,
         searchType: this.course_type,
         searchStatus: this.status,
+        searchGroup: this.group,
+        searchMy: this.user_id,
+        order: joi
+            .string()
+            .valid(
+                ...Object.values(OrderQueryEnum),
+                ...Object.values(OrderQueryEnum).map((item) => `-${item}`),
+            ),
+    });
+
+    public static queryForExport = joi.object({
+        searchName: this.name,
+        searchSurname: this.surname,
+        searchEmail: this.searchEmail,
+        searchPhone: this.phone,
+        searchAge: this.age,
+        searchCourse: this.course,
+        searchFormat: this.course_format,
+        searchType: this.course_type,
+        searchStatus: this.status,
+        searchGroup: this.group,
+        searchMy: this.user_id,
         order: joi
             .string()
             .valid(
@@ -92,6 +115,6 @@ export class OrderValidator {
         surname: this.surname,
         utm: this.utm,
         group: this.group,
-        userId: this.userId,
+        user_id: this.user_id,
     });
 }

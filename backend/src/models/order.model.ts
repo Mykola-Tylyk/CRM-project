@@ -20,7 +20,8 @@ const orderSchema = new Schema<IOrder>(
         surname: { type: String, required: true },
         utm: { type: String, required: true },
         group: { type: String, default: null },
-        userId: { type: Schema.Types.ObjectId, default: null, ref: "users" },
+        user_id: { type: Schema.Types.ObjectId, default: null, ref: "users" },
+        user_name: { type: String, default: null },
     },
     {
         timestamps: {

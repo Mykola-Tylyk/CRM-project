@@ -4,4 +4,5 @@ export interface IPaginatedResponse<T> {
     prevPage: boolean;
     nextPage: boolean;
     data: T[];
+    groups?: string[];
 }

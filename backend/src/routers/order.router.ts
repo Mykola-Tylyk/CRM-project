@@ -14,6 +14,13 @@ router.get(
     orderController.getAll,
 );
 
+router.get(
+    "/export",
+    authMiddleware.checkAccessToken,
+    commonMiddleware.validateQuery(OrderValidator.queryForExport),
+    orderController.getAllForExport,
+);
+
 router.patch(
     "/",
     authMiddleware.checkAccessToken,

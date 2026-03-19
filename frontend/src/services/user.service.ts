@@ -6,13 +6,19 @@ import { apiService } from "./api.service";
 export const getAllUsers = async ({
     pageSize,
     page,
+    order,
 }: {
     pageSize: number;
     page: number;
+    order?: string;
 }): Promise<IPaginatedResponse<IUser>> => {
-    const { data } = await apiService.get(
-        urls.users.base + "?pageSize=" + pageSize + "&page=" + page,
-    );
+    let url = urls.users.base + "?pageSize=" + pageSize + "&page=" + page;
+
+    if (order) {
+        url += `&order=${order}`;
+    }
+
+    const { data } = await apiService.get(url);
     return data;
 };
 
