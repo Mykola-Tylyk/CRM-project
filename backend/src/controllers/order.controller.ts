@@ -46,7 +46,7 @@ class OrderController {
     public async update(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body as any as IOrderUpdate;
-            const data = await orderService.update(body);
+            const data = await orderService.update({ data: body });
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);

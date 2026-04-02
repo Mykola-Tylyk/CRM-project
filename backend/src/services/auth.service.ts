@@ -4,7 +4,7 @@ import { StatusCodesEnum } from "../enums/status-codes.enum";
 import { ApiError } from "../errors/api.error";
 import { IAuth } from "../interfaces/auth.interface";
 import { ITokenPair } from "../interfaces/token.interface";
-import { IUser } from "../interfaces/user.interface";
+import { IUserWithStats } from "../interfaces/user.interface";
 import { tokenRepositories } from "../repositories/token.repositories";
 import { userRepository } from "../repositories/user.repository";
 import { passwordService } from "./password.service";
@@ -15,7 +15,7 @@ class AuthService {
     public async activate(
         tokenActivate: string,
         password: string,
-    ): Promise<IUser> {
+    ): Promise<IUserWithStats> {
         const { _id } = tokenService.verifyToken(
             tokenActivate,
             ActionTokenTypeEnum.ACTIVATE,
@@ -33,7 +33,7 @@ class AuthService {
     public async passwordRecovery(
         tokenRecovery: string,
         password: string,
-    ): Promise<IUser> {
+    ): Promise<IUserWithStats> {
         const { _id } = tokenService.verifyToken(
             tokenRecovery,
             ActionTokenTypeEnum.RECOVERY,
@@ -107,7 +107,7 @@ class AuthService {
     public async sineIn({
         email,
         password,
-    }: IAuth): Promise<{ user: IUser; tokens: ITokenPair }> {
+    }: IAuth): Promise<{ user: IUserWithStats; tokens: ITokenPair }> {
         const userData = await userRepository.getByEmail(email);
 
         if (!userData) {

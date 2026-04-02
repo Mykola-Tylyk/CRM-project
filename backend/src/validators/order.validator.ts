@@ -44,11 +44,11 @@ export class OrderValidator {
     private static status = joi
         .string()
         .trim()
-        .valid("in work", "new", "aggre", "disaggre", "dubbing")
+        .valid("in work", "new", "agree", "disagree", "dubbing")
         .insensitive()
         .messages({
             "any.only":
-                "The course_format can only be one of: in work, new, aggre, disaggre, dubbing",
+                "The course_format can only be one of: in work, new, agree, disagree, dubbing",
             "string.base": "The course_format must be a string",
         });
     private static sum = joi.number();
@@ -56,6 +56,17 @@ export class OrderValidator {
     private static utm = joi.string();
     private static group = joi.string().max(10);
     private static user_id = joi.string().regex(RegexEnum.OBJECT_ID);
+    private static startDate = joi.date().iso().optional();
+    private static endDate = joi
+        .date()
+        .iso()
+        .when("searchStartDate", {
+            is: joi.exist().not(null),
+            then: joi.date().min(joi.ref("searchStartDate")),
+            otherwise: joi.date().iso().optional(),
+        })
+        .optional()
+        .messages({ "date min": "End date must be greater than start date" });
 
     public static query = joi.object({
         pageSize: joi.number().min(1).default(25),
@@ -71,6 +82,8 @@ export class OrderValidator {
         searchStatus: this.status,
         searchGroup: this.group,
         searchMy: this.user_id,
+        searchStartDate: this.startDate,
+        searchEndDate: this.endDate,
         order: joi
             .string()
             .valid(
@@ -91,6 +104,8 @@ export class OrderValidator {
         searchStatus: this.status,
         searchGroup: this.group,
         searchMy: this.user_id,
+        searchStartDate: this.startDate,
+        searchEndDate: this.endDate,
         order: joi
             .string()
             .valid(
@@ -115,6 +130,6 @@ export class OrderValidator {
         surname: this.surname,
         utm: this.utm,
         group: this.group,
-        user_id: this.user_id,
+        user_id: this.user_id.required(),
     });
 }

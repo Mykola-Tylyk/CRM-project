@@ -1,7 +1,7 @@
 import "./ToolbarOrder.css";
 
 import debounce from "lodash.debounce";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppSelector } from "../../redux/hooks/useAppSelector";
@@ -9,10 +9,10 @@ import { useAppSelector } from "../../redux/hooks/useAppSelector";
 const ToolbarOrder = () => {
     const { user } = useAppSelector((state) => state.authSlice);
     const { groups } = useAppSelector((state) => state.orderSlice.orders);
-    const [typeStartDate, setTypeStartDate] = useState<"text" | "date">("text");
-    const [typeEndDate, setTypeEndDate] = useState<"text" | "date">("text");
-
+    const [isStartDateFocused, setIsStartDateFocused] =
+        useState<boolean>(false);
     const [query, setQuery] = useSearchParams();
+    const [isEndFocused, setIsEndFocused] = useState<boolean>(false);
 
     const debouncedChange = useMemo(
         () =>
@@ -38,6 +38,52 @@ const ToolbarOrder = () => {
         [query, setQuery],
     );
 
+    const normalizeDates = (start?: string | null, end?: string | null) => {
+        const isValid = (d?: string | null) => {
+            if (!d) return false;
+            const date = new Date(d);
+            return !isNaN(date.getTime());
+        };
+
+        let startDate = isValid(start) ? start! : "";
+        let endDate = isValid(end) ? end! : "";
+
+        if (startDate && endDate && startDate > endDate) {
+            endDate = startDate;
+        }
+
+        return { startDate, endDate };
+    };
+
+    useEffect(() => {
+        const rawStart = query.get("start_date");
+        const rawEnd = query.get("end_date");
+
+        const { startDate, endDate } = normalizeDates(rawStart, rawEnd);
+
+        const currentParams = Object.fromEntries(query.entries());
+
+        const updatedParams = {
+            ...currentParams,
+            start_date: startDate || undefined,
+            end_date: endDate || undefined,
+        };
+
+        const cleanedParams = Object.fromEntries(
+            Object.entries(updatedParams).filter(([, value]) => value),
+        ) as Record<string, string>;
+
+        if (rawStart !== startDate || rawEnd !== endDate) {
+            setQuery(cleanedParams);
+        }
+
+        setFilters((prev) => ({
+            ...prev,
+            start_date: startDate,
+            end_date: endDate,
+        }));
+    }, [query]);
+
     const handleChange = (key: string, value: string) => {
         debouncedChange(key, value);
     };
@@ -48,11 +94,51 @@ const ToolbarOrder = () => {
         email: "",
         phone: "",
         age: "",
+        course: "",
+        course_format: "",
+        course_type: "",
+        status: "",
+        group: "",
+        start_date: "",
+        end_date: "",
+        my: false,
     });
 
+    useEffect(() => {
+        setFilters({
+            name: query.get("name") || "",
+            surname: query.get("surname") || "",
+            email: query.get("email") || "",
+            phone: query.get("phone") || "",
+            age: query.get("age") || "",
+            course: query.get("course") || "",
+            course_format: query.get("course_format") || "",
+            course_type: query.get("course_type") || "",
+            status: query.get("status") || "",
+            group: query.get("group") || "",
+            my: query.get("my") === "true",
+            start_date: query.get("start_date") || "",
+            end_date: query.get("end_date") || "",
+        });
+    }, [query]);
+
     const handleReset = () => {
-        setFilters({ name: "", surname: "", email: "", phone: "", age: "" });
-        setQuery({ page: "1", order: "-_id" });
+        setFilters({
+            name: "",
+            surname: "",
+            email: "",
+            phone: "",
+            age: "",
+            course: "",
+            course_format: "",
+            course_type: "",
+            status: "",
+            group: "",
+            start_date: "",
+            end_date: "",
+            my: false,
+        });
+        setQuery({ page: "1", order: "-order_number" });
     };
 
     const handleExport = () => {
@@ -96,6 +182,12 @@ const ToolbarOrder = () => {
         if (query.get("my") === "true" && user?._id) {
             queryParams.set("searchMy", user._id);
         }
+
+        if (query.get("start_date"))
+            queryParams.set("searchStartDate", query.get("start_date")!);
+
+        if (query.get("end_date"))
+            queryParams.set("searchEndDate", query.get("end_date")!);
 
         window.location.href = `/api/orders/export?${queryParams.toString()}`;
     };
@@ -161,8 +253,12 @@ const ToolbarOrder = () => {
                     />
                     <select
                         className={"input_search__toolbar_order"}
-                        value={query.get("course") || ""}
-                        onChange={(e) => handleChange("course", e.target.value)}
+                        value={filters.course}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, course: value });
+                            handleChange("course", value);
+                        }}
                     >
                         <option value="">all courses</option>
                         <option value="fs">FS</option>
@@ -176,10 +272,12 @@ const ToolbarOrder = () => {
                 <div className={"div_wrapper_2_row__toolbar_order"}>
                     <select
                         className={"input_search__toolbar_order"}
-                        value={query.get("course_format") || ""}
-                        onChange={(e) =>
-                            handleChange("course_format", e.target.value)
-                        }
+                        value={filters.course_format}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, course_format: value });
+                            handleChange("course_format", value);
+                        }}
                     >
                         <option value="">all formats</option>
                         <option value="static">static</option>
@@ -187,10 +285,12 @@ const ToolbarOrder = () => {
                     </select>
                     <select
                         className={"input_search__toolbar_order"}
-                        value={query.get("course_type") || ""}
-                        onChange={(e) =>
-                            handleChange("course_type", e.target.value)
-                        }
+                        value={filters.course_type}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, course_type: value });
+                            handleChange("course_type", value);
+                        }}
                     >
                         <option value="">all types</option>
                         <option value="pro">pro</option>
@@ -201,20 +301,28 @@ const ToolbarOrder = () => {
                     </select>
                     <select
                         className={"input_search__toolbar_order"}
-                        value={query.get("status") || ""}
-                        onChange={(e) => handleChange("status", e.target.value)}
+                        value={filters.status}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, status: value });
+                            handleChange("status", value);
+                        }}
                     >
                         <option value="">all statuses</option>
                         <option value="In work">In work</option>
                         <option value="New">New</option>
-                        <option value="Aggre">Aggre</option>
-                        <option value="Disaggre">Disaggre</option>
+                        <option value="Agree">Agree</option>
+                        <option value="Disagree">Disagree</option>
                         <option value="Dubbing">Dubbing</option>
                     </select>
                     <select
                         className={"input_search__toolbar_order"}
-                        value={query.get("group") || ""}
-                        onChange={(e) => handleChange("group", e.target.value)}
+                        value={filters.group}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, group: value });
+                            handleChange("group", value);
+                        }}
                     >
                         <option value="">all groups</option>
                         {groups &&
@@ -225,21 +333,45 @@ const ToolbarOrder = () => {
                             ))}
                     </select>
                     <input
-                        type={typeStartDate}
+                        type={
+                            filters.start_date || isStartDateFocused
+                                ? "date"
+                                : "text"
+                        }
                         placeholder="Start date"
                         className={"input_search__toolbar_order"}
-                        onFocus={() => setTypeStartDate("date")}
-                        onBlur={(e) => {
-                            if (!e.target.value) setTypeStartDate("text");
+                        onFocus={() => {
+                            setIsStartDateFocused(true);
+                        }}
+                        onBlur={() => {
+                            setIsStartDateFocused(false);
+                        }}
+                        value={filters.start_date}
+                        max={filters.end_date || undefined}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, start_date: value });
+                            handleChange("start_date", value);
                         }}
                     />
                     <input
-                        type={typeEndDate}
+                        type={
+                            filters.end_date || isEndFocused ? "date" : "text"
+                        }
                         placeholder="End date"
                         className={"input_search__toolbar_order"}
-                        onFocus={() => setTypeEndDate("date")}
-                        onBlur={(e) => {
-                            if (!e.target.value) setTypeEndDate("text");
+                        onFocus={() => {
+                            setIsEndFocused(true);
+                        }}
+                        onBlur={() => {
+                            setIsEndFocused(false);
+                        }}
+                        value={filters.end_date}
+                        min={filters.start_date || undefined}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFilters({ ...filters, end_date: value });
+                            handleChange("end_date", value);
                         }}
                     />
                 </div>

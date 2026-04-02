@@ -18,6 +18,8 @@ export const getAllOrders = async ({
     status,
     group,
     my,
+    start_date,
+    end_date,
 }: {
     pageSize: number;
     page: number;
@@ -33,6 +35,8 @@ export const getAllOrders = async ({
     status?: string;
     group?: string;
     my?: string;
+    start_date?: string;
+    end_date?: string;
 }): Promise<IPaginatedResponse<IOrder>> => {
     let url = urls.orders.base + `?pageSize=${pageSize}&page=${page}`;
 
@@ -82,6 +86,14 @@ export const getAllOrders = async ({
 
     if (my) {
         url += `&searchMy=${my}`;
+    }
+
+    if (start_date) {
+        url += `&searchStartDate=${start_date}`;
+    }
+
+    if (end_date) {
+        url += `&searchEndDate=${end_date}`;
     }
     const { data } = await apiService.get(url);
     return data;

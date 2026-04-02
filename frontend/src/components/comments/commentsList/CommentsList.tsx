@@ -1,51 +1,46 @@
 import "./CommentsList.css";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useMemo } from "react";
+import { useDispatch } from "react-redux";
 
-import { IComment } from "../../../interfaces/comment.interface";
-import { getByIdComments } from "../../../services/comment.service";
+import { useAppSelector } from "../../../redux/hooks/useAppSelector";
+import { orderSliceActions } from "../../../redux/slices/orderSlice/orderSlice";
 import { Comment } from "../comment/Comment";
 import { FormAddComment } from "../formAddComment/FormAddComment";
 
 type CommentsListProps = {
     selectedOrderId: string | null;
+    disabledForm: boolean;
 };
 
-const CommentsList: FC<CommentsListProps> = ({ selectedOrderId }) => {
-    const [comments, setComments] = useState<IComment | null>(null);
-    const reloadComments = () => {
-        if (selectedOrderId) {
-            getByIdComments(selectedOrderId).then((value) =>
-                setComments(value),
-            );
-        }
-    };
+const CommentsList: FC<CommentsListProps> = ({
+    selectedOrderId,
+    disabledForm,
+}) => {
+    const { orders } = useAppSelector((state) => state.orderSlice);
+    const dispatch = useDispatch();
+    // const [comments, setComments] = useState<IComment | null>(null);
 
-    useEffect(() => {
-        if (selectedOrderId) {
-            getByIdComments(selectedOrderId).then((value) =>
-                setComments(value),
-            );
-        }
-    }, [selectedOrderId]);
+    const reloadComments = () => {
+        dispatch(orderSliceActions.setTrigger());
+    };
+    const selectedOrder = useMemo(() => {
+        return orders.data.find((o) => o._id === selectedOrderId);
+    }, [orders.data, selectedOrderId]);
+
+    const comments = selectedOrder?.last_comments || [];
 
     return (
         <div className={"div_wrapper__comments_list"}>
             <div>
                 <div className={"div_with_comments__comments_list"}>
-                    {comments ? (
-                        [...comments.comments]
-                            .slice(-3)
-                            .reverse()
-                            .map((comment, index, array) => (
-                                <div key={comments._id}>
-                                    <Comment
-                                        comment={comment}
-                                        createdAt={comments.createdAt}
-                                    />
-                                    {index < array.length - 1 && <hr />}
-                                </div>
-                            ))
+                    {comments.length ? (
+                        comments.map((comment, index, array) => (
+                            <div key={comment._id}>
+                                <Comment comment={comment} />
+                                {index < array.length - 1 && <hr />}
+                            </div>
+                        ))
                     ) : (
                         <div>No comments</div>
                     )}
@@ -53,10 +48,14 @@ const CommentsList: FC<CommentsListProps> = ({ selectedOrderId }) => {
                 <FormAddComment
                     selectedOrderId={selectedOrderId}
                     onSuccess={reloadComments}
+                    disabledForm={disabledForm}
                 />
             </div>
             <div className={"div_wrapper_button__comments_list"}>
-                <button disabled={true} className={"button__comments_list"}>
+                <button
+                    disabled={disabledForm}
+                    className={"button__comments_list"}
+                >
                     EDIT
                 </button>
             </div>

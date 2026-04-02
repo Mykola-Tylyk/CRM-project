@@ -1,7 +1,10 @@
 import { Types } from "mongoose";
 
+import { ICommentResponse } from "./comment.interface";
+
 export interface IOrder {
     _id: string;
+    order_number: number | null;
     age: number;
     already_paid: null | number;
     course: string;
@@ -20,6 +23,7 @@ export interface IOrder {
     user_id?: null | Types.ObjectId;
     user_name?: null | string;
     updated_at?: Date;
+    last_comments?: ICommentResponse[] | null;
 }
 
 export interface IOrderQuery {
@@ -36,6 +40,8 @@ export interface IOrderQuery {
     searchStatus?: string;
     searchGroup?: string;
     searchMy?: string;
+    searchStartDate?: Date;
+    searchEndDate?: Date;
     order?: string;
 }
 
@@ -55,6 +61,7 @@ export interface IOrderUpdate {
     surname?: string;
     utm?: string;
     group?: null | string;
-    user_id?: null | string;
+    user_id: null | string;
     user_name?: null | string;
+    last_comments?: ICommentResponse[] | null;
 }

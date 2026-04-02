@@ -1,5 +1,8 @@
+import { IComment } from "./comment.interface";
+
 export interface IOrder {
     _id: string;
+    order_number: number;
     age: number;
     already_paid: null | number;
     course: string;
@@ -17,4 +20,5 @@ export interface IOrder {
     group: null | string;
     user_id: null | string;
     user_name: null | string;
+    last_comments: null | IComment[];
 }

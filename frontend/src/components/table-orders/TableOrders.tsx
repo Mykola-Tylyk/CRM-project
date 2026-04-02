@@ -1,6 +1,6 @@
 import "./TableOrders.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
@@ -11,17 +11,41 @@ import { TableOrderRow } from "./TableOrderRow";
 
 const TableOrders = () => {
     const { user } = useAppSelector((state) => state.authSlice);
-    const { orders, loadState, order } = useAppSelector(
+    const { orders, loadState, order, trigger } = useAppSelector(
         (state) => state.orderSlice,
     );
     const dispatch = useAppDispatch();
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [disabledForm, setDisabledForm] = useState<boolean>(true);
 
-    const [query, setQuery] = useSearchParams({ page: "1", order: "-_id" });
+    const [query, setQuery] = useSearchParams({
+        page: "1",
+        order: "-order_number",
+    });
 
     const pageSize = 25;
     const page = Number(query.get("page"));
     const isPageValid = Number.isInteger(page) && page > 0;
+
+    const selectedOrder = useMemo(() => {
+        return orders.data.find((o) => o._id === selectedId);
+    }, [orders.data, selectedId]);
+
+    const status = selectedOrder?.status;
+    const userId = selectedOrder?.user_id;
+
+    useEffect(() => {
+        if (!status || status === "new") {
+            setDisabledForm(false);
+        } else if (
+            (status !== null && userId === user?._id) ||
+            (status !== "new" && userId === user?._id)
+        ) {
+            setDisabledForm(false);
+        } else {
+            setDisabledForm(true);
+        }
+    }, [status, userId]);
 
     useEffect(() => {
         const orderParam = query.get("order") || undefined;
@@ -40,6 +64,9 @@ const TableOrders = () => {
         if (searchParamMy === "true") {
             searchParamMy = user?._id;
         }
+
+        const searchParamStartDate = query.get("start_date") || undefined;
+        const searchParamEndDate = query.get("end_date") || undefined;
 
         const columnMap: Record<string, string> = { manager: "user_name" };
 
@@ -66,6 +93,8 @@ const TableOrders = () => {
                     status: searchParamStatus,
                     group: searchParamGroup,
                     my: searchParamMy,
+                    start_date: searchParamStartDate,
+                    end_date: searchParamEndDate,
                 }),
             );
             dispatch(orderSliceActions.setOrder(orderParam));
@@ -73,7 +102,7 @@ const TableOrders = () => {
             // dispatch(orderSliceActions.setError("Invalid page parameter"));
             setQuery({ page: "1" });
         }
-    }, [dispatch, page, query]);
+    }, [dispatch, page, query, trigger]);
 
     const handleSelect = (id: string) => {
         setSelectedId((prev) => (prev === id ? null : id));
@@ -94,6 +123,7 @@ const TableOrders = () => {
         setQuery({
             ...currentParams,
             order: newOrder,
+            page: "1",
         });
     };
 
@@ -104,7 +134,7 @@ const TableOrders = () => {
     };
 
     const columns = [
-        "_id",
+        "order_number",
         "name",
         "surname",
         "email",
@@ -168,6 +198,7 @@ const TableOrders = () => {
                                     isSelected={selectedId === order._id}
                                     onClick={() => handleSelect(order._id)}
                                     selectedOrderId={selectedId}
+                                    disabledForm={disabledForm}
                                 />
                             ))}
                         </tbody>

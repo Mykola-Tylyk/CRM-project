@@ -9,7 +9,13 @@ export interface IUser extends IBase {
     lastLogin: Date | null;
     role: string;
     isDeleted: boolean;
-    isVerified: boolean;
+    stats: {
+        total: number;
+        inWork: number;
+        agree: number;
+        disagree: number;
+        dubbing: number;
+    };
 }
 
 export type IUserDTO = Pick<IUser, "name" | "surname" | "email">;

@@ -11,8 +11,6 @@ const userSchema = new Schema<IUser>(
         password: { type: String },
         isActive: { type: Boolean, default: false },
         lastLogin: { type: Date, default: null },
-        // total: { type: Number, default: null },
-        // inWork: { type: Number, default: null },
         role: {
             enum: RoleEnum,
             type: String,
@@ -20,7 +18,6 @@ const userSchema = new Schema<IUser>(
             default: RoleEnum.MANAGER,
         },
         isDeleted: { type: Boolean, default: false },
-        // isVerified: { type: Boolean, default: false },
     },
     {
         timestamps: true,

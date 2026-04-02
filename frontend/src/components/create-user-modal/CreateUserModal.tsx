@@ -3,6 +3,7 @@ import "./CreateUserModal.css";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
 import { userSliceActions } from "../../redux/slices/userSlice/userSlice";
@@ -32,6 +33,8 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
         resolver: joiResolver(UserCreateValidator.user),
     });
 
+    const [query, setQuery] = useSearchParams({ page: "1" });
+
     const onSubmit = async ({ firstname, ...rest }: IUserForm) => {
         try {
             await dispatch(
@@ -43,6 +46,9 @@ const CreateUserModal: FC<Props> = ({ onClose, onSuccess }) => {
 
             reset();
             onSuccess();
+            if (query.get("page") !== "1") {
+                setQuery({ page: "1" });
+            }
         } catch (err) {
             setError("email", {
                 type: "server",

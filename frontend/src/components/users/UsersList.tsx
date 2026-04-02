@@ -19,7 +19,7 @@ const UsersList = ({ onCreateClick }: Props) => {
     );
     const dispatch = useAppDispatch();
 
-    const [query] = useSearchParams({ page: "1" });
+    const [query, setQuery] = useSearchParams({ page: "1" });
 
     const pageSize = 5;
     const page = Number(query.get("page"));
@@ -30,7 +30,8 @@ const UsersList = ({ onCreateClick }: Props) => {
         if (isPageValid) {
             dispatch(userSliceActions.loadUsers({ pageSize, page, order }));
         } else {
-            dispatch(userSliceActions.setError("Invalid page parameter"));
+            // dispatch(userSliceActions.setError("Invalid page parameter"));
+            setQuery({ page: "1" });
         }
     };
 
@@ -43,20 +44,38 @@ const UsersList = ({ onCreateClick }: Props) => {
     }
 
     return (
-        <div className={"div_wrapper__users_list"}>
-            {onCreateClick && (
-                <button
-                    onClick={onCreateClick}
-                    className={"button_create__users_list"}
-                >
-                    CREATE
-                </button>
-            )}
-            {users.data.length !== 0 ? (
-                users.data.map((user) => <User key={user._id} user={user} />)
-            ) : (
-                <div className={"div_no_users__users_list"}>No users</div>
-            )}
+        <div className={"div_main_wrapper__users_list"}>
+            <div className={"div_wrapper__users_list"}>
+                {onCreateClick && (
+                    <div className={"div_wrapper_button_and_stats__users_list"}>
+                        <button
+                            onClick={onCreateClick}
+                            className={"button_create__users_list"}
+                        >
+                            CREATE
+                        </button>
+                        {users.globalStats && (
+                            <div className={"div_stats__users_list"}>
+                                <p>Total: {users.globalStats.total}</p>
+                                <p>In work: {users.globalStats.inWork}</p>
+                                <p>New: {users.globalStats.new}</p>
+                                <p>Agree: {users.globalStats.agree}</p>
+                                <p>Disagree: {users.globalStats.disagree}</p>
+                                <p>Dubbing: {users.globalStats.dubbing}</p>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+            <div className={"div_wrapper_2__users_list"}>
+                {users.data.length !== 0 ? (
+                    users.data.map((user) => (
+                        <User key={user._id} user={user} />
+                    ))
+                ) : (
+                    <div className={"div_no_users__users_list"}>No users</div>
+                )}
+            </div>
         </div>
     );
 };

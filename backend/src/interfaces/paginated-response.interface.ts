@@ -5,4 +5,12 @@ export interface IPaginatedResponse<T> {
     nextPage: boolean;
     data: T[];
     groups?: string[];
+    globalStats?: {
+        total: number;
+        inWork: number;
+        new: number;
+        agree: number;
+        disagree: number;
+        dubbing: number;
+    };
 }

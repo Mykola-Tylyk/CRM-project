@@ -1,5 +1,6 @@
 export enum OrderQueryEnum {
     _ID = "_id",
+    ORDER_NUMBER = "order_number",
     NAME = "name",
     SURNAME = "surname",
     EMAIL = "email",

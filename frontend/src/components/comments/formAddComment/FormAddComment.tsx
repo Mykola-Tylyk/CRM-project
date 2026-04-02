@@ -4,6 +4,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { useAppSelector } from "../../../redux/hooks/useAppSelector";
 import { addComment } from "../../../services/comment.service";
 import { CommentValidator } from "../../../validators/comment.validator";
 
@@ -14,9 +15,14 @@ type IFormData = {
 type IFormProps = {
     selectedOrderId: string | null;
     onSuccess: () => void;
+    disabledForm: boolean;
 };
 
-const FormAddComment: FC<IFormProps> = ({ selectedOrderId, onSuccess }) => {
+const FormAddComment: FC<IFormProps> = ({
+    selectedOrderId,
+    onSuccess,
+    disabledForm,
+}) => {
     const {
         register,
         handleSubmit,
@@ -27,14 +33,17 @@ const FormAddComment: FC<IFormProps> = ({ selectedOrderId, onSuccess }) => {
         resolver: joiResolver(CommentValidator.create),
     });
 
+    const { user } = useAppSelector((state) => state.authSlice);
+
     const [showError, setShowError] = useState(false);
 
     const handler = async (formData: IFormData) => {
-        if (!selectedOrderId) return;
+        if (!selectedOrderId || !user) return;
 
         await addComment({
-            comment: formData.comment,
+            text: formData.comment,
             orderId: selectedOrderId,
+            userId: user._id,
         });
         reset();
         onSuccess();
@@ -51,9 +60,11 @@ const FormAddComment: FC<IFormProps> = ({ selectedOrderId, onSuccess }) => {
                         className={`input__form_add_comment ${showError && errors.comment ? "input_error__form_add_comment" : ""}`}
                         onFocus={() => setShowError(true)}
                         onBlur={() => setShowError(false)}
+                        readOnly={disabledForm}
+                        tabIndex={disabledForm ? -1 : 0}
                     />
                     <button
-                        disabled={!isValid}
+                        disabled={!isValid || disabledForm}
                         className={"button__form_add_comment"}
                     >
                         SUBMIT

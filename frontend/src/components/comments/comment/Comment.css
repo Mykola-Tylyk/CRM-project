@@ -1,4 +1,33 @@
 .div_for_comment_row__comment {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
+
+.comment_text__comment {
+    flex: 1;                /* занимает всё доступное */
+    min-width: 0;           /* ВАЖНО: разрешает сжатие */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    /* если хочешь в одну строку */
+}
+
+.div_wrapper_info__comments_list {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;         /* не сжимается */
+    white-space: nowrap;    /* всегда в одну строку */
+}
+
+
+
+
+
+
+
+
+
+
+
+

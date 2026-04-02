@@ -119,21 +119,56 @@ class OrderService {
         return workbook;
     }
 
-    public async update(data: IOrderUpdate): Promise<IOrder> {
+    public async update({
+        data,
+        createComment = false,
+    }: {
+        data: IOrderUpdate;
+        createComment?: boolean;
+    }): Promise<IOrder> {
         const orderId = data._id;
 
-        if (data.user_id) {
-            const { name } = await userService.getById(data.user_id);
-            data.user_name = name;
-        }
+        const orderResponse = await orderRepository.getById(orderId);
 
-        const order = await orderRepository.update(orderId, data);
-
-        if (!order) {
+        if (!orderResponse) {
             throw new ApiError("Order not found", StatusCodesEnum.NOT_FOUND);
         }
 
-        return order;
+        const user = await userService.getById(data.user_id);
+
+        if (
+            createComment &&
+            user &&
+            (!orderResponse.status || orderResponse.status === "new")
+        ) {
+            data.user_name = user.name;
+            data.status = "in work";
+        } else if (
+            (orderResponse.status !== null &&
+                data.user_id === orderResponse.user_id.toString()) ||
+            (orderResponse.status !== "new" &&
+                data.user_id === orderResponse.user_id.toString())
+        ) {
+            data.user_name = user.name;
+        } else {
+            throw new ApiError(
+                "Status should be new or null",
+                StatusCodesEnum.BAD_REQUEST,
+            );
+        }
+
+        if (
+            !createComment &&
+            data.status === "new" &&
+            orderResponse.user_id.toString() === data.user_id
+        ) {
+            data.user_id = null;
+            data.user_name = null;
+        } else if (!createComment && data.status !== "new") {
+            data.user_name = user.name;
+        }
+
+        return await orderRepository.update(orderId, data);
     }
 }
 

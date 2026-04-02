@@ -4,20 +4,27 @@ import {
     IComment,
     ICommentCreateDTO,
     ICommentQuery,
+    ICommentResponse,
 } from "../interfaces/comment.interface";
 import { IPaginatedResponse } from "../interfaces/paginated-response.interface";
 import { commentRepository } from "../repositories/comment.repository";
 import { orderRepository } from "../repositories/order.repository";
+import { userRepository } from "../repositories/user.repository";
+import { orderService } from "./order.service";
 
 class CommentService {
     public async getAll(
         query: ICommentQuery,
-    ): Promise<IPaginatedResponse<IComment>> {
+    ): Promise<IPaginatedResponse<ICommentResponse>> {
         const [data, totalItems] = await commentRepository.getAll(query);
 
-        if (!data || data.length === 0) {
-            throw new ApiError("Comments not found", StatusCodesEnum.NOT_FOUND);
-        }
+        const mappedData = data.map((c) => ({
+            _id: c._id,
+            text: c.text,
+            user_name: c.userId.name,
+            user_surname: c.userId.surname,
+            createdAt: c.createdAt,
+        }));
 
         const totalPages = Math.ceil(totalItems / query.pageSize);
 
@@ -26,9 +33,10 @@ class CommentService {
             totalPages,
             prevPage: query.page > 1,
             nextPage: query.page < totalPages,
-            data,
+            data: mappedData,
         };
     }
+
     public async getByOrderId(orderId: string): Promise<IComment> {
         const order = await orderRepository.getById(orderId);
 
@@ -48,27 +56,37 @@ class CommentService {
             throw new ApiError("Order not found", StatusCodesEnum.NOT_FOUND);
         }
 
-        const commentByOrderId = await commentRepository.getOne({
-            orderId: body.orderId,
-        });
+        const user = await userRepository.getById(body.userId);
 
-        if (!commentByOrderId) {
-            const data = await commentRepository.create(body);
-
-            if (!data) {
-                throw new ApiError(
-                    "Comment not created",
-                    StatusCodesEnum.BAD_REQUEST,
-                );
-            }
-
-            return data;
+        if (!user) {
+            throw new ApiError("User not found", StatusCodesEnum.NOT_FOUND);
         }
 
-        return await commentRepository.addComment(
-            commentByOrderId._id,
-            body.comment,
-        );
+        const comment = await commentRepository.create(body);
+
+        const query: ICommentQuery = {
+            pageSize: 3,
+            page: 1,
+            order: "-createdAt",
+            orderId: body.orderId,
+        };
+
+        const { data } = await this.getAll(query);
+
+        if (!data) {
+            throw new ApiError("Comment not found", StatusCodesEnum.NOT_FOUND);
+        }
+
+        await orderService.update({
+            data: {
+                _id: body.orderId,
+                user_id: body.userId,
+                last_comments: data,
+            },
+            createComment: true,
+        });
+
+        return comment;
     }
 }
 

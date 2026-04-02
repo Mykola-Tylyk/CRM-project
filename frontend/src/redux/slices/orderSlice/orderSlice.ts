@@ -17,6 +17,7 @@ type OrderSliceType = {
     loadState: boolean;
     errorMessage: string | null;
     order?: string;
+    trigger: null | boolean;
 };
 
 const initialState: OrderSliceType = {
@@ -31,6 +32,7 @@ const initialState: OrderSliceType = {
     loadState: false,
     errorMessage: null,
     order: undefined,
+    trigger: null,
 };
 
 const loadOrders = createAsyncThunk(
@@ -51,6 +53,8 @@ const loadOrders = createAsyncThunk(
             status,
             group,
             my,
+            start_date,
+            end_date,
         }: {
             pageSize: number;
             page: number;
@@ -66,6 +70,8 @@ const loadOrders = createAsyncThunk(
             status?: string;
             group?: string;
             my?: string;
+            start_date?: string;
+            end_date?: string;
         },
         thunkAPI,
     ) => {
@@ -85,6 +91,8 @@ const loadOrders = createAsyncThunk(
                 status,
                 group,
                 my,
+                start_date,
+                end_date,
             });
             return thunkAPI.fulfillWithValue(orders);
         } catch (e) {
@@ -109,6 +117,9 @@ export const orderSlice = createSlice({
         },
         setOrder(state, action: PayloadAction<string | undefined>) {
             state.order = action.payload;
+        },
+        setTrigger(state) {
+            state.trigger = !state.trigger;
         },
     },
     extraReducers: (builder) =>

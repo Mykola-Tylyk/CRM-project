@@ -1,5 +1,5 @@
 import { urls } from "../constants/urls";
-import { IComment } from "../interfaces/comment.interface";
+import { IComment, ICommentCreateDTO } from "../interfaces/comment.interface";
 import { apiService } from "./api.service";
 
 export const getAllComments = async (): Promise<IComment[]> => {
@@ -14,16 +14,12 @@ export const getByIdComments = async (orderId: string): Promise<IComment> => {
     return data;
 };
 
-export const addComment = async ({
-    comment,
-    orderId: orderId,
-}: {
-    comment: string;
-    orderId: string;
-}): Promise<IComment> => {
-    const { data } = await apiService.post<IComment>(urls.comments.base, {
-        comment: comment,
-        orderId: orderId,
-    });
+export const addComment = async (
+    createDTO: ICommentCreateDTO,
+): Promise<IComment> => {
+    const { data } = await apiService.post<IComment>(
+        urls.comments.base,
+        createDTO,
+    );
     return data;
 };

@@ -12,6 +12,7 @@ type TableRowPageProps = {
     isSelected: boolean;
     onClick: () => void;
     selectedOrderId: string | null;
+    disabledForm: boolean;
 };
 
 const TableOrderRow: FC<TableRowPageProps> = ({
@@ -21,6 +22,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
     isSelected,
     onClick,
     selectedOrderId,
+    disabledForm,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -56,7 +58,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                 onClick={onClick}
             >
                 <td className={"table_data__table_order_row"}>
-                    {displayValue(order._id)}
+                    {displayValue(order.order_number)}
                 </td>
                 <td className={"table_data__table_order_row"}>
                     {displayValue(order.name)}
@@ -139,6 +141,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                             >
                                 <CommentsList
                                     selectedOrderId={selectedOrderId}
+                                    disabledForm={disabledForm}
                                 />
                             </div>
                         </div>

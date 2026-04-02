@@ -71,6 +71,13 @@ const User: FC<TableRowPageProps> = ({ user }) => {
                 </div>
             </div>
             <div>
+                <div>total: {user.stats.total}</div>
+                {user.stats.inWork ? (
+                    <div>in work: {user.stats.inWork}</div>
+                ) : null}
+                {user.stats.agree ? <div>agree: {user.stats.agree}</div> : null}
+            </div>
+            <div>
                 <div className={"div_wrapper_buttons__user"}>
                     <button
                         className={"buttons__user"}

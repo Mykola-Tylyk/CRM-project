@@ -8,18 +8,12 @@ import { Header } from "../../components/header/Header";
 import { Pagination } from "../../components/paginations/Pagination";
 import { UsersList } from "../../components/users/UsersList";
 import { useAppSelector } from "../../redux/hooks/useAppSelector";
-import { ErrorPage } from "../error-page/ErrorPage";
 
 const UsersPage = () => {
     const [showModal, setShowModal] = useState(false);
     const {
         users: { totalPages },
-        errorMessage,
     } = useAppSelector((state) => state.userSlice);
-
-    if (errorMessage) {
-        return <ErrorPage errorMessage={errorMessage} />;
-    }
 
     return (
         <div className={"grid__users_page"}>

@@ -1,14 +1,15 @@
-import { IBase } from "./base.interface";
-
-interface IComment extends IBase {
+interface IComment {
     _id: string;
-    comments: string[];
-    orderId: string;
+    text: string;
+    user_name: string;
+    user_surname: string;
+    createdAt: Date;
 }
 
 interface ICommentCreateDTO {
-    comment: string;
+    text: string;
     orderId: string;
+    userId: string;
 }
 
 export type { IComment, ICommentCreateDTO };

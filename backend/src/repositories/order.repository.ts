@@ -81,12 +81,63 @@ class OrderRepository {
             filterObject.user_id = new Types.ObjectId(query.searchMy);
         }
 
+        if (query.searchStartDate || query.searchEndDate) {
+            filterObject.created_at = {
+                ...(query.searchStartDate && {
+                    $gte: new Date(query.searchStartDate),
+                }),
+                ...(query.searchEndDate && {
+                    $lte: (() => {
+                        const end = new Date(query.searchEndDate);
+                        end.setHours(23, 59, 59, 999);
+                        return end;
+                    })(),
+                }),
+            };
+        }
+
         return Promise.all([
             Order.find(filterObject)
                 .limit(query.pageSize)
                 .skip(skip)
                 .sort(query.order),
             Order.find(filterObject).countDocuments(),
+        ]);
+    }
+
+    public getStatsByUsers(
+        userIds: string[],
+    ): Promise<
+        { _id: { user_id: string; status: string | null }; count: number }[]
+    > {
+        return Order.aggregate([
+            {
+                $match: {
+                    user_id: {
+                        $in: userIds.map((id) => new Types.ObjectId(id)),
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: {
+                        user_id: "$user_id",
+                        status: "$status",
+                    },
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+    }
+
+    public getGlobalStats(): Promise<{ _id: string | null; count: number }[]> {
+        return Order.aggregate([
+            {
+                $group: {
+                    _id: "$status",
+                    count: { $sum: 1 },
+                },
+            },
         ]);
     }
 

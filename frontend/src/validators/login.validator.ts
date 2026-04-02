@@ -12,18 +12,27 @@ export class LoginValidator {
             "string.empty": "email is required",
         }),
         password: this.password.messages({
-            "string.pattern.base":
-                "The password must be between 8 and 16 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character. Spaces are not allowed.",
+            "string.pattern.base": "Email or password not valid",
             "string.empty": "password is required",
         }),
     });
 
     public static validatePassword = joi.object({
-        password: this.password.messages({
-            "string.pattern.base":
-                "The password must be between 8 and 16 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character. Spaces are not allowed.",
-            "string.empty": "password is required",
-        }),
+        password: joi
+            .string()
+            .min(8)
+            .message("Min 8 characters")
+            .max(16)
+            .message("Max 16 characters")
+            .pattern(RegexEnum.PASSWORD)
+            .message(
+                "The password must include at least one number, one uppercase letter, one lowercase letter, and one special character. Spaces are not allowed.",
+            )
+            .required()
+            .messages({
+                "string.empty": "Password is required",
+            }),
+
         confirmPassword: joi
             .any()
             .valid(joi.ref("password"))

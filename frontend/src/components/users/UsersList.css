@@ -1,14 +1,42 @@
+.div_main_wrapper__users_list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .div_wrapper__users_list {
     padding: 10px 100px;
 }
 
-.button_create__users_list {
+.div_wrapper_2__users_list {
+    padding: 10px 100px;
+    height: 100%;
+}
+
+.div_wrapper_button_and_stats__users_list {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    min-width: 340px;
+    gap: 20px;
     margin-bottom: 10px;
+}
+
+.div_stats__users_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+}
+
+.button_create__users_list {
     padding: 10px 20px;
     background-color: #4CAF50;
     border: none;
     border-radius: 5px;
     color: white;
+    flex-shrink: 0;
 }
 
 .button_create__users_list:hover {
@@ -19,8 +47,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     color: #4CAF50;
     font-size: 40px;
     font-weight: bold;
+    height: 100%;
 }
