@@ -4,8 +4,9 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { useAppDispatch } from "../../../redux/hooks/useAppDispatch";
 import { useAppSelector } from "../../../redux/hooks/useAppSelector";
-import { addComment } from "../../../services/comment.service";
+import { commentSliceActions } from "../../../redux/slices/commentSlice/commentSlice";
 import { CommentValidator } from "../../../validators/comment.validator";
 
 type IFormData = {
@@ -34,17 +35,20 @@ const FormAddComment: FC<IFormProps> = ({
     });
 
     const { user } = useAppSelector((state) => state.authSlice);
+    const dispatch = useAppDispatch();
 
     const [showError, setShowError] = useState(false);
 
     const handler = async (formData: IFormData) => {
         if (!selectedOrderId || !user) return;
 
-        await addComment({
-            text: formData.comment,
-            orderId: selectedOrderId,
-            userId: user._id,
-        });
+        await dispatch(
+            commentSliceActions.createComment({
+                text: formData.comment,
+                orderId: selectedOrderId,
+                userId: user._id,
+            }),
+        );
         reset();
         onSuccess();
     };

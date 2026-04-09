@@ -1,20 +1,41 @@
 import "./Pagimation.css";
 
+import { FC } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const Pagination = ({ totalPages }: { totalPages: number }) => {
+type PaginationProps = {
+    totalPages: number;
+    page?: number;
+    onPageChange?: (page: number) => void;
+};
+
+const Pagination: FC<PaginationProps> = ({
+    totalPages,
+    page,
+    onPageChange,
+}) => {
+    const isControlled = page !== undefined;
+
     const [query, setQuery] = useSearchParams({ page: "1" });
-    const currentPage = Number(query.get("page")) || 1;
+
+    const currentPage = isControlled ? page : Number(query.get("page")) || 1;
+
     const maxVisible = 7;
 
-    const handlePageClick = (page: number) => {
-        const currentParams = Object.fromEntries(query.entries());
-        if (page !== currentPage) {
-            setQuery({
-                ...currentParams,
-                page: String(page),
-            });
+    const handlePageClick = (newPage: number) => {
+        if (newPage === currentPage) return;
+
+        if (isControlled) {
+            onPageChange?.(newPage);
+            return;
         }
+
+        const currentParams = Object.fromEntries(query.entries());
+
+        setQuery({
+            ...currentParams,
+            page: String(newPage),
+        });
     };
 
     const getPages = (): (number | string)[] => {

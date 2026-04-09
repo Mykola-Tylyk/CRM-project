@@ -18,16 +18,6 @@ class CommentController {
         }
     }
 
-    public async getByOrderId(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { order_id } = req.params;
-            const data = await commentService.getByOrderId(order_id);
-            res.status(StatusCodesEnum.OK).json(data);
-        } catch (e) {
-            next(e);
-        }
-    }
-
     public async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body as ICommentCreateDTO;

@@ -36,3 +36,10 @@
 .buttons__user:hover {
     background-color: #388d3c;
 }
+
+.buttons__user:disabled {
+    transition: background-color 0.5s ease;
+    background-color: #b8b8b8;
+    color: #ffffff;
+    cursor: not-allowed;
+}

@@ -13,6 +13,7 @@ type TableRowPageProps = {
     onClick: () => void;
     selectedOrderId: string | null;
     disabledForm: boolean;
+    onCommentsClick: () => void;
 };
 
 const TableOrderRow: FC<TableRowPageProps> = ({
@@ -23,6 +24,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
     onClick,
     selectedOrderId,
     disabledForm,
+    onCommentsClick,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -142,6 +144,7 @@ const TableOrderRow: FC<TableRowPageProps> = ({
                                 <CommentsList
                                     selectedOrderId={selectedOrderId}
                                     disabledForm={disabledForm}
+                                    onCommentsClick={onCommentsClick}
                                 />
                             </div>
                         </div>

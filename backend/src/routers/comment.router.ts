@@ -14,13 +14,6 @@ router.get(
     commentController.getAll,
 );
 
-router.get(
-    "/:order_id",
-    authMiddleware.checkAccessToken,
-    commonMiddleware.validateId("order_id"),
-    commentController.getByOrderId,
-);
-
 router.post(
     "/",
     authMiddleware.checkAccessToken,

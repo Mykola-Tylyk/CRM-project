@@ -1,10 +1,19 @@
-.loader-wrapper__preloader {
+.loader-wrapper-global__preloader {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
 }
+
+.loader-wrapper-local__preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
 
 .text__preloader {
     color: #43a047;

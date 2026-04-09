@@ -34,10 +34,6 @@ class CommentRepository {
             userId: comment.userId,
         });
     }
-
-    public getOne(filter: FilterQuery<IComment>): Promise<IComment> {
-        return Comment.findOne(filter);
-    }
 }
 
 export const commentRepository = new CommentRepository();

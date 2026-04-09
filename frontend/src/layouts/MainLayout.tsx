@@ -18,7 +18,7 @@ const MainLayout = () => {
     if (status === "idle" || status === "loading") {
         return (
             <div>
-                <Preloader />
+                <Preloader mode={"global"} />
             </div>
         );
     }

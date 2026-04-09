@@ -3,6 +3,7 @@ import "./User.css";
 import { FC, useState } from "react";
 
 import { ActionTokenTypeEnum } from "../../enums/action-token-type.enum";
+import { RoleEnum } from "../../enums/role.enum";
 import { IUser } from "../../interfaces/user.interface";
 import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
 import { authSliceActions } from "../../redux/slices/authSlice/authSlice";
@@ -93,12 +94,14 @@ const User: FC<TableRowPageProps> = ({ user }) => {
                     </button>
                     <button
                         className={"buttons__user"}
+                        disabled={user.role === RoleEnum.ADMIN}
                         onClick={() => handleBan()}
                     >
                         BAN
                     </button>
                     <button
                         className={"buttons__user"}
+                        disabled={user.role === RoleEnum.ADMIN}
                         onClick={() => handleUnban()}
                     >
                         UNBAN

@@ -13,18 +13,22 @@ import { userRepository } from "../repositories/user.repository";
 import { orderService } from "./order.service";
 
 class CommentService {
-    public async getAll(
-        query: ICommentQuery,
-    ): Promise<IPaginatedResponse<ICommentResponse>> {
-        const [data, totalItems] = await commentRepository.getAll(query);
-
-        const mappedData = data.map((c) => ({
+    private mappedData(data: IComment[]) {
+        return data.map((c) => ({
             _id: c._id,
             text: c.text,
             user_name: c.userId.name,
             user_surname: c.userId.surname,
             createdAt: c.createdAt,
         }));
+    }
+
+    public async getAll(
+        query: ICommentQuery,
+    ): Promise<IPaginatedResponse<ICommentResponse>> {
+        const [data, totalItems] = await commentRepository.getAll(query);
+
+        const newData = this.mappedData(data);
 
         const totalPages = Math.ceil(totalItems / query.pageSize);
 
@@ -33,23 +37,11 @@ class CommentService {
             totalPages,
             prevPage: query.page > 1,
             nextPage: query.page < totalPages,
-            data: mappedData,
+            data: newData,
         };
     }
 
-    public async getByOrderId(orderId: string): Promise<IComment> {
-        const order = await orderRepository.getById(orderId);
-
-        if (!order) {
-            throw new ApiError("Order not found", StatusCodesEnum.NOT_FOUND);
-        }
-
-        return await commentRepository.getOne({
-            orderId: orderId,
-        });
-    }
-
-    public async create(body: ICommentCreateDTO): Promise<IComment> {
+    public async create(body: ICommentCreateDTO): Promise<ICommentResponse> {
         const order = await orderRepository.getById(body.orderId);
 
         if (!order) {
@@ -86,7 +78,9 @@ class CommentService {
             createComment: true,
         });
 
-        return comment;
+        const [mappedData] = this.mappedData([comment]);
+
+        return mappedData;
     }
 }
 

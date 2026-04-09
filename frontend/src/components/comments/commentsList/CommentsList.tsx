@@ -11,15 +11,16 @@ import { FormAddComment } from "../formAddComment/FormAddComment";
 type CommentsListProps = {
     selectedOrderId: string | null;
     disabledForm: boolean;
+    onCommentsClick: () => void;
 };
 
 const CommentsList: FC<CommentsListProps> = ({
     selectedOrderId,
     disabledForm,
+    onCommentsClick,
 }) => {
     const { orders } = useAppSelector((state) => state.orderSlice);
     const dispatch = useDispatch();
-    // const [comments, setComments] = useState<IComment | null>(null);
 
     const reloadComments = () => {
         dispatch(orderSliceActions.setTrigger());
@@ -36,7 +37,7 @@ const CommentsList: FC<CommentsListProps> = ({
                 <div className={"div_with_comments__comments_list"}>
                     {comments.length ? (
                         comments.map((comment, index, array) => (
-                            <div key={comment._id}>
+                            <div key={comment._id} onClick={onCommentsClick}>
                                 <Comment comment={comment} />
                                 {index < array.length - 1 && <hr />}
                             </div>

@@ -40,7 +40,7 @@ const UsersList = ({ onCreateClick }: Props) => {
     }, [dispatch, page, trigger]);
 
     if (!loadState) {
-        return <Preloader />;
+        return <Preloader mode={"global"} />;
     }
 
     return (

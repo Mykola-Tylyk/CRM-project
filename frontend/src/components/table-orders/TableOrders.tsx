@@ -1,6 +1,6 @@
 import "./TableOrders.css";
 
-import { useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
@@ -9,7 +9,11 @@ import { orderSliceActions } from "../../redux/slices/orderSlice/orderSlice";
 import { Preloader } from "../preloader/Preloader";
 import { TableOrderRow } from "./TableOrderRow";
 
-const TableOrders = () => {
+type Props = {
+    onCommentsClick: (id: string) => void;
+};
+
+const TableOrders: FC<Props> = ({ onCommentsClick }) => {
     const { user } = useAppSelector((state) => state.authSlice);
     const { orders, loadState, order, trigger } = useAppSelector(
         (state) => state.orderSlice,
@@ -22,6 +26,10 @@ const TableOrders = () => {
         page: "1",
         order: "-order_number",
     });
+
+    useEffect(() => {
+        setSelectedId(null);
+    }, [query]);
 
     const pageSize = 25;
     const page = Number(query.get("page"));
@@ -154,7 +162,7 @@ const TableOrders = () => {
     const colSpanLength = columns.length;
 
     if (!loadState) {
-        return <Preloader />;
+        return <Preloader mode={"global"} />;
     }
 
     return (
@@ -199,6 +207,9 @@ const TableOrders = () => {
                                     onClick={() => handleSelect(order._id)}
                                     selectedOrderId={selectedId}
                                     disabledForm={disabledForm}
+                                    onCommentsClick={() =>
+                                        onCommentsClick(order._id)
+                                    }
                                 />
                             ))}
                         </tbody>

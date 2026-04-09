@@ -19,6 +19,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import { authSlice } from "../slices/authSlice/authSlice";
+import { commentSlice } from "../slices/commentSlice/commentSlice";
 import { orderSlice } from "../slices/orderSlice/orderSlice";
 import { userSlice } from "../slices/userSlice/userSlice";
 
@@ -30,6 +31,7 @@ const appReducer = combineReducers({
     authSlice: authSlice.reducer,
     orderSlice: orderSlice.reducer,
     userSlice: userSlice.reducer,
+    commentSlice: commentSlice.reducer,
 });
 
 /* ---------- ROOT REDUCER (тип берём от appReducer) ---------- */
