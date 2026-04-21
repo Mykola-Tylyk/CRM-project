@@ -4,9 +4,17 @@ import { OrderQueryEnum } from "../enums/order-query.enum";
 import { RegexEnum } from "../enums/regex.enum";
 
 export class OrderValidator {
-    private static _id = joi.string().regex(RegexEnum.OBJECT_ID);
-    private static already_paid = joi.number();
-    private static age = joi.number().min(1).max(120);
+    private static _id = joi.string().regex(RegexEnum.OBJECT_ID).messages({
+        "string.pattern.base": "_id must be a valid ObjectId",
+    });
+    private static already_paid = joi.number().messages({
+        "number.base": "Must be number",
+    });
+    private static age = joi.number().min(1).max(120).messages({
+        "number.base": "Must be number",
+        "string.min": "Min 1",
+        "string.max": "Max 120",
+    });
     private static course = joi
         .string()
         .trim()
@@ -33,14 +41,24 @@ export class OrderValidator {
         .insensitive()
         .messages({
             "any.only":
-                "The course_format can only be one of: pro, minimal, premium, incubator, vip",
-            "string.base": "The course_format must be a string",
+                "The course_type can only be one of: pro, minimal, premium, incubator, vip",
+            "string.base": "The course_type must be a string",
         });
-    private static email = joi.string().email().trim();
+    private static email = joi.string().email().trim().messages({
+        "string.email": "Invalid email",
+    });
     private static searchEmail = joi.string().trim();
-    private static msg = joi.string();
-    private static name = joi.string().trim();
-    private static phone = joi.string().trim();
+    private static msg = joi
+        .string()
+        .messages({ "string.base": "Must be string" });
+    private static name = joi
+        .string()
+        .trim()
+        .messages({ "string.base": "Must be string" });
+    private static phone = joi
+        .string()
+        .trim()
+        .messages({ "string.base": "Must be string" });
     private static status = joi
         .string()
         .trim()
@@ -48,14 +66,26 @@ export class OrderValidator {
         .insensitive()
         .messages({
             "any.only":
-                "The course_format can only be one of: in work, new, agree, disagree, dubbing",
-            "string.base": "The course_format must be a string",
+                "The status can only be one of: in work, new, agree, disagree, dubbing",
+            "string.base": "The status must be a string",
         });
-    private static sum = joi.number();
-    private static surname = joi.string().trim();
-    private static utm = joi.string();
-    private static group = joi.string().max(10);
-    private static user_id = joi.string().regex(RegexEnum.OBJECT_ID);
+    private static sum = joi
+        .number()
+        .messages({ "number.base": "Must be number" });
+    private static surname = joi
+        .string()
+        .trim()
+        .messages({ "string.base": "Must be string" });
+    private static utm = joi
+        .string()
+        .messages({ "string.base": "Must be string" });
+    private static group = joi.string().min(1).max(10).messages({
+        "string.min": "Min 1",
+        "string.max": "Max 10",
+    });
+    private static user_id = joi.string().regex(RegexEnum.OBJECT_ID).messages({
+        "string.pattern.base": "user_id must be a valid ObjectId",
+    });
     private static startDate = joi.date().iso().optional();
     private static endDate = joi
         .date()
@@ -124,8 +154,8 @@ export class OrderValidator {
         email: this.email,
         msg: this.msg,
         name: this.name,
-        phone: this.phone,
-        status: this.status,
+        phone: this.phone.pattern(RegexEnum.PHONE),
+        status: this.status.required(),
         sum: this.sum,
         surname: this.surname,
         utm: this.utm,

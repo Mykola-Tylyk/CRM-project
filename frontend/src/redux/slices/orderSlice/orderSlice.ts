@@ -10,7 +10,7 @@ import axios from "axios";
 
 import { IOrder } from "../../../interfaces/order.interface";
 import { IPaginatedResponse } from "../../../interfaces/paginated-response.interface";
-import { getAllOrders } from "../../../services/order.service";
+import { getAllOrders, update } from "../../../services/order.service";
 
 type OrderSliceType = {
     orders: IPaginatedResponse<IOrder>;
@@ -108,6 +108,73 @@ const loadOrders = createAsyncThunk(
     },
 );
 
+const updateOrder = createAsyncThunk(
+    "orderSlice/updateOrder",
+    async (
+        {
+            _id,
+            user_id,
+            name,
+            surname,
+            already_paid,
+            email,
+            phone,
+            age,
+            course,
+            course_format,
+            course_type,
+            status,
+            group,
+            sum,
+        }: {
+            _id: string;
+            user_id: string;
+            name?: string;
+            surname?: string;
+            already_paid?: number;
+            email?: string;
+            phone?: string;
+            age?: number;
+            course?: string;
+            course_format?: string;
+            course_type?: string;
+            status: string;
+            group?: string;
+            sum?: number;
+        },
+        thunkAPI,
+    ) => {
+        try {
+            const order = await update({
+                _id,
+                user_id,
+                name,
+                surname,
+                already_paid,
+                email,
+                phone,
+                age,
+                course,
+                course_format,
+                course_type,
+                status,
+                group,
+                sum,
+            });
+            return thunkAPI.fulfillWithValue(order);
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                return thunkAPI.rejectWithValue(
+                    (e.response?.data as { message?: string })?.message ||
+                        "Server error",
+                );
+            }
+
+            return thunkAPI.rejectWithValue("Unknown server error");
+        }
+    },
+);
+
 export const orderSlice = createSlice({
     name: "orderSlice",
     initialState: initialState,
@@ -132,19 +199,26 @@ export const orderSlice = createSlice({
                 },
             )
             .addCase(loadOrders.rejected, (state, action) => {
-                state.loadState = false;
                 state.errorMessage =
                     (action.payload as string) || "Unknown error";
             })
-            .addMatcher(isPending(loadOrders), (state) => {
+            .addCase(updateOrder.rejected, (state, action) => {
+                state.errorMessage =
+                    (action.payload as string) || "Unknown error";
+            })
+            .addMatcher(isPending(loadOrders, updateOrder), (state) => {
                 state.loadState = false;
             })
-            .addMatcher(isFulfilled(loadOrders), (state) => {
+            .addMatcher(isFulfilled(loadOrders, updateOrder), (state) => {
                 state.loadState = true;
             })
-            .addMatcher(isRejected(loadOrders), (state) => {
+            .addMatcher(isRejected(loadOrders, updateOrder), (state) => {
                 state.loadState = true;
             }),
 });
 
-export const orderSliceActions = { ...orderSlice.actions, loadOrders };
+export const orderSliceActions = {
+    ...orderSlice.actions,
+    loadOrders,
+    updateOrder,
+};

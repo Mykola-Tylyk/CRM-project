@@ -98,3 +98,55 @@ export const getAllOrders = async ({
     const { data } = await apiService.get(url);
     return data;
 };
+
+export const update = async ({
+    _id,
+    user_id,
+    name,
+    surname,
+    already_paid,
+    email,
+    phone,
+    age,
+    course,
+    course_format,
+    course_type,
+    status,
+    group,
+    sum,
+}: {
+    _id: string;
+    user_id: string;
+    name?: string;
+    surname?: string;
+    already_paid?: number;
+    email?: string;
+    phone?: string;
+    age?: number;
+    course?: string;
+    course_format?: string;
+    course_type?: string;
+    status: string;
+    group?: string;
+    sum?: number;
+}): Promise<IOrder> => {
+    const url = urls.orders.base;
+
+    const { data } = await apiService.patch(url, {
+        _id,
+        user_id,
+        name,
+        surname,
+        already_paid,
+        email,
+        phone,
+        age,
+        course,
+        course_format,
+        course_type,
+        status,
+        group,
+        sum,
+    });
+    return data;
+};

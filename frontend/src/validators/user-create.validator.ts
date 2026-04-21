@@ -1,19 +1,3 @@
-// import joi from "joi";
-//
-// import { RegexEnum } from "../enums/regex.enum";
-//
-// export class UserCreateValidator {
-//     private static email = joi.string().email().trim();
-//     private static firstname = joi.string().pattern(RegexEnum.NAME);
-//     private static surname = joi.string().pattern(RegexEnum.NAME);
-//
-//     public static user = joi.object({
-//         email: this.email.required(),
-//         firstname: this.firstname.required(),
-//         surname: this.surname.required(),
-//     });
-// }
-
 import joi from "joi";
 
 import { RegexEnum } from "../enums/regex.enum";

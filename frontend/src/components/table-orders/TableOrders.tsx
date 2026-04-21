@@ -1,6 +1,13 @@
 import "./TableOrders.css";
 
-import { FC, useEffect, useMemo, useState } from "react";
+import {
+    Dispatch,
+    FC,
+    SetStateAction,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks/useAppDispatch";
@@ -10,16 +17,23 @@ import { Preloader } from "../preloader/Preloader";
 import { TableOrderRow } from "./TableOrderRow";
 
 type Props = {
-    onCommentsClick: (id: string) => void;
+    selectedOrderId: string | null;
+    setSelectedOrderId: Dispatch<SetStateAction<string | null>>;
+    onCommentsClick: () => void;
+    onEditOrdersClick: () => void;
 };
 
-const TableOrders: FC<Props> = ({ onCommentsClick }) => {
+const TableOrders: FC<Props> = ({
+    selectedOrderId,
+    setSelectedOrderId,
+    onCommentsClick,
+    onEditOrdersClick,
+}) => {
     const { user } = useAppSelector((state) => state.authSlice);
     const { orders, loadState, order, trigger } = useAppSelector(
         (state) => state.orderSlice,
     );
     const dispatch = useAppDispatch();
-    const [selectedId, setSelectedId] = useState<string | null>(null);
     const [disabledForm, setDisabledForm] = useState<boolean>(true);
 
     const [query, setQuery] = useSearchParams({
@@ -28,7 +42,7 @@ const TableOrders: FC<Props> = ({ onCommentsClick }) => {
     });
 
     useEffect(() => {
-        setSelectedId(null);
+        setSelectedOrderId(null);
     }, [query]);
 
     const pageSize = 25;
@@ -36,8 +50,8 @@ const TableOrders: FC<Props> = ({ onCommentsClick }) => {
     const isPageValid = Number.isInteger(page) && page > 0;
 
     const selectedOrder = useMemo(() => {
-        return orders.data.find((o) => o._id === selectedId);
-    }, [orders.data, selectedId]);
+        return orders.data.find((o) => o._id === selectedOrderId);
+    }, [orders.data, selectedOrderId]);
 
     const status = selectedOrder?.status;
     const userId = selectedOrder?.user_id;
@@ -113,7 +127,7 @@ const TableOrders: FC<Props> = ({ onCommentsClick }) => {
     }, [dispatch, page, query, trigger]);
 
     const handleSelect = (id: string) => {
-        setSelectedId((prev) => (prev === id ? null : id));
+        setSelectedOrderId((prev) => (prev === id ? null : id));
     };
 
     const handleSort = (column: string) => {
@@ -203,13 +217,12 @@ const TableOrders: FC<Props> = ({ onCommentsClick }) => {
                                     order={order}
                                     index={index}
                                     colSpanLength={colSpanLength}
-                                    isSelected={selectedId === order._id}
+                                    isSelected={selectedOrderId === order._id}
                                     onClick={() => handleSelect(order._id)}
-                                    selectedOrderId={selectedId}
+                                    selectedOrderId={selectedOrderId}
                                     disabledForm={disabledForm}
-                                    onCommentsClick={() =>
-                                        onCommentsClick(order._id)
-                                    }
+                                    onCommentsClick={onCommentsClick}
+                                    onEditOrdersClick={onEditOrdersClick}
                                 />
                             ))}
                         </tbody>

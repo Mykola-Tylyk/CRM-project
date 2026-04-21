@@ -309,11 +309,11 @@ const ToolbarOrder = () => {
                         }}
                     >
                         <option value="">all statuses</option>
-                        <option value="In work">In work</option>
-                        <option value="New">New</option>
-                        <option value="Agree">Agree</option>
-                        <option value="Disagree">Disagree</option>
-                        <option value="Dubbing">Dubbing</option>
+                        <option value="in work">In work</option>
+                        <option value="new">New</option>
+                        <option value="agree">Agree</option>
+                        <option value="disagree">Disagree</option>
+                        <option value="dubbing">Dubbing</option>
                     </select>
                     <select
                         className={"input_search__toolbar_order"}

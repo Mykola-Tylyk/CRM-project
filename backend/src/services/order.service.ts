@@ -136,36 +136,59 @@ class OrderService {
 
         const user = await userService.getById(data.user_id);
 
-        if (
-            createComment &&
-            user &&
-            (!orderResponse.status || orderResponse.status === "new")
-        ) {
-            data.user_name = user.name;
-            data.status = "in work";
-        } else if (
-            (orderResponse.status !== null &&
-                data.user_id === orderResponse.user_id.toString()) ||
-            (orderResponse.status !== "new" &&
-                data.user_id === orderResponse.user_id.toString())
-        ) {
-            data.user_name = user.name;
-        } else {
-            throw new ApiError(
-                "Status should be new or null",
-                StatusCodesEnum.BAD_REQUEST,
-            );
+        if (createComment) {
+            if (
+                user &&
+                (!orderResponse.status || orderResponse.status === "new")
+            ) {
+                data.user_name = user.name;
+                data.status = "in work";
+            } else if (
+                (orderResponse.status !== null &&
+                    data.user_id === orderResponse.user_id.toString()) ||
+                (orderResponse.status !== "new" &&
+                    data.user_id === orderResponse.user_id.toString())
+            ) {
+                data.user_name = user.name;
+            } else {
+                throw new ApiError(
+                    "Status should be new or null",
+                    StatusCodesEnum.BAD_REQUEST,
+                );
+            }
         }
 
-        if (
-            !createComment &&
-            data.status === "new" &&
-            orderResponse.user_id.toString() === data.user_id
-        ) {
-            data.user_id = null;
-            data.user_name = null;
-        } else if (!createComment && data.status !== "new") {
-            data.user_name = user.name;
+        if (!createComment) {
+            if (
+                orderResponse.user_id &&
+                orderResponse.user_id.toString() === data.user_id &&
+                data.status === "new"
+            ) {
+                data.user_id = null;
+                data.user_name = null;
+            } else if (
+                orderResponse.user_id &&
+                orderResponse.user_id.toString() === data.user_id &&
+                data.status !== "new"
+            ) {
+                data.user_name = user.name;
+            } else if (
+                orderResponse.user_id &&
+                orderResponse.user_id.toString() !== data.user_id &&
+                orderResponse.status === "new"
+            ) {
+                data.user_name = user.name;
+            } else if (
+                orderResponse.user_id &&
+                orderResponse.user_id.toString() !== data.user_id &&
+                orderResponse.status !== "new"
+            ) {
+                return orderResponse;
+            } else if (!orderResponse.user_id && data.status !== "new") {
+                data.user_name = user.name;
+            } else if (!orderResponse.user_id && data.status === "new") {
+                return orderResponse;
+            }
         }
 
         return await orderRepository.update(orderId, data);

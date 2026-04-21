@@ -3,6 +3,7 @@ import "./TableOrderPage.css";
 import { useState } from "react";
 
 import { CommentsModal } from "../../components/comments-modal/CommentsModal";
+import { EditOrdersModal } from "../../components/edit-orders-modal/EditOrdersModal";
 import { Footer } from "../../components/footer/Footer";
 import { Header } from "../../components/header/Header";
 import { Pagination } from "../../components/paginations/Pagination";
@@ -11,7 +12,9 @@ import { ToolbarOrder } from "../../components/toolbarOrder/ToolbarOrder";
 import { useAppSelector } from "../../redux/hooks/useAppSelector";
 
 const TableOrdersPage = () => {
-    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showCommentsModal, setShowCommentsModal] = useState<boolean>(false);
+    const [showEditOrdersModal, setShowEditOrdersModal] =
+        useState<boolean>(false);
     const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
     const {
         orders: { totalPages },
@@ -27,10 +30,10 @@ const TableOrdersPage = () => {
             </div>
             <div className={"table_scroll__table_orders_page"}>
                 <TableOrders
-                    onCommentsClick={(id) => {
-                        setSelectedOrderId(id);
-                        setShowModal(true);
-                    }}
+                    selectedOrderId={selectedOrderId}
+                    setSelectedOrderId={setSelectedOrderId}
+                    onCommentsClick={() => setShowCommentsModal(true)}
+                    onEditOrdersClick={() => setShowEditOrdersModal(true)}
                 />
             </div>
             <div className={"pagination_fixed__table_orders_page"}>
@@ -39,9 +42,15 @@ const TableOrdersPage = () => {
             <footer className="footer_fixed__table_orders_page">
                 <Footer />
             </footer>
-            {showModal && (
+            {showCommentsModal && selectedOrderId && (
                 <CommentsModal
-                    onClose={() => setShowModal(false)}
+                    onClose={() => setShowCommentsModal(false)}
+                    selectedOrderId={selectedOrderId}
+                />
+            )}
+            {showEditOrdersModal && selectedOrderId && (
+                <EditOrdersModal
+                    onClose={() => setShowEditOrdersModal(false)}
                     selectedOrderId={selectedOrderId}
                 />
             )}

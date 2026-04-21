@@ -12,12 +12,14 @@ type CommentsListProps = {
     selectedOrderId: string | null;
     disabledForm: boolean;
     onCommentsClick: () => void;
+    onEditOrdersClick: () => void;
 };
 
 const CommentsList: FC<CommentsListProps> = ({
     selectedOrderId,
     disabledForm,
     onCommentsClick,
+    onEditOrdersClick,
 }) => {
     const { orders } = useAppSelector((state) => state.orderSlice);
     const dispatch = useDispatch();
@@ -56,6 +58,7 @@ const CommentsList: FC<CommentsListProps> = ({
                 <button
                     disabled={disabledForm}
                     className={"button__comments_list"}
+                    onClick={onEditOrdersClick}
                 >
                     EDIT
                 </button>

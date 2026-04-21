@@ -40,7 +40,16 @@
     width: 170px;
 }
 
+.input_activate_form__activate:focus {
+    border-color: #43a047;
+}
+
 .input_error_activate_form__activate {
+    border: 1px solid red;
+    transition: border 0.5s ease;
+}
+
+.input_error_activate_form__activate:focus {
     border: 1px solid red;
     transition: border 0.5s ease;
 }

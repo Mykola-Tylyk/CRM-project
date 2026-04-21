@@ -11,7 +11,8 @@
 }
 
 .input_search__toolbar_order:focus {
-    border-color: #808080;
+    /*border-color: #808080;*/
+    border-color: #43a047;
 }
 
 .div_wrapper__toolbar_order {
